@@ -1,12 +1,12 @@
 {
-  "name": "sports-schedule-background-generator",
+  "name": "sports-schedule-background-generator-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "preinstall": "webpack -p"
+    "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js"
   },
   "keywords": [],
   "author": "Domenic Matesic",
@@ -17,6 +17,7 @@
     "csvtojson": "^0.4.5",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "webshot": "^0.16.0"
+    "webshot": "^0.16.0",
+    "webpack": "^1.12.6"
   }
 }

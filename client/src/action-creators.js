@@ -16,7 +16,7 @@
     actionCreators.loadTeams = function() {
         return function(dispatch) {
             request
-            .get('http://localhost:4000/team')
+            .get('team')
             .end(function(err, res) {
                 if (err) console.error(err); // TODO: Handle error
                 else {
@@ -33,7 +33,7 @@
     actionCreators.loadSchedule = function(teamName) {
         return function(dispatch) {
             request
-            .get('http://localhost:4000/team/' + teamName + '/schedule')
+            .get('team/' + teamName + '/schedule')
             .end(function (err, res) {
                 if (err) console.error(err); // TODO: Handle error
                 else {
@@ -53,7 +53,7 @@
             var background = ReactDomServer.renderToStaticMarkup(< Background {...props}/>);
 
             request
-            .post('http://localhost:4000/screenshot')
+            .post('screenshot')
             .send({
                 html: background,
                 height: props.background.size.height,

@@ -8,7 +8,7 @@ var bodyParser = require('body-parser'),
 // TODO: Create configuration file
 var config = {
 	express: {
-		port: 4000
+		port: process.env.PORT || 4000
 	}
 };
 

@@ -24,7 +24,13 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',
-        hot: true
+        hot: true,
+        proxy: {
+            '/*': {
+                target: 'http://localhost:4000/',
+                secure: false
+            },
+        }
     },
     devtool: 'source-map',
     plugins: [
