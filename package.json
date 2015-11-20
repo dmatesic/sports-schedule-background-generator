@@ -2,23 +2,20 @@
   "name": "sports-schedule-background-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
-  "author": "",
+  "keywords": [],
+  "author": "Domenic Matesic",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.4.2",
-    "body-parser": "^1.13.3",
-    "cloudinary": "^1.2.4",
+    "body-parser": "^1.14.1",
     "cors": "^2.7.1",
-    "csvtojson": "^0.4.2",
+    "csvtojson": "^0.4.5",
     "express": "^4.13.3",
     "lodash": "^3.10.1",
-    "node-bing-api": "^2.0.0",
-    "request": "^2.61.0",
     "webshot": "^0.16.0"
   }
 }

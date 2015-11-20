@@ -1,0 +1,44 @@
+{
+	teams: ['Army', 'Air Force', 'Navy'],
+	selectedTeam: 'Air Force',
+	schedule: [
+		{
+			opponentTeam: 'Navy',
+			imageUri: '/navy.jpg',
+			date: '11/01/2015',
+			location: 'home'
+		},
+		{
+			opponentTeam: 'Army',
+			imageUri: '/army.jpg',
+			date: '11/08/2015',
+			location: 'away'
+		}
+	],
+	background: {
+		container: {
+			size: {
+				width: 645,
+				height: 557
+			}
+		},
+		padding: {
+			top: 580,
+			bottom: 298,
+			right: 0,
+			left: 0
+		},
+		preview: {
+			scale: 0.2921195652173913
+		},
+		size: {
+			width: 1242,
+			height: 2208
+		},
+		team: {
+			size: {
+				width: 332
+			}
+		}
+	}
+}
