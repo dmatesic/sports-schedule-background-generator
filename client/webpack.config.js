@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var path = require('path'),
+    webpack = require('webpack');
 
 module.exports = {
     entry: [
@@ -17,7 +18,7 @@ module.exports = {
         extensions: ['', '.js', '.jsx']
     },
     output: {
-        path: __dirname + (process.env.NODE_ENV === 'production' ? './dist' : './build'),
+        path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: 'bundle.js'
     },
