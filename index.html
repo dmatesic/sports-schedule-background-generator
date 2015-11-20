@@ -1,0 +1,373 @@
+<!-- https://docs.google.com/drawings/d/1VqwmAajZVHKolVNLge5SyTUxsvPXTpowzl0n6tncgTY/edit?usp=sharing -->
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+
+	</style>
+	<script src="http://fb.me/react-0.13.3.js"></script>
+	<script src="http://fb.me/JSXTransformer-0.13.3.js"></script>
+	<script src="https://rawgit.com/FormidableLabs/biff/master/dist/Biff.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
+	<sciprt src="https://raw.githubusercontent.com/niklasvh/html2canvas/master/dist/html2canvas.js"></sciprt>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+</head>
+<body>
+	<div id="app-container"></div>
+
+	<script type="text/jsx">
+
+		// http://math.stackexchange.com/questions/466198/algorithm-to-get-the-maximum-size-of-n-squares-that-fit-into-a-rectangle-with-a
+		var _maxSquareSize = function(x,y,n) {
+            var Px = Math.ceil(Math.sqrt(n*x/y))
+            var Sx, Sy, Py;
+
+            if (Math.floor(Px*y/x)*Px < n) Sx = y/Math.ceil(Px * y/x);
+            else Sx = x/Px;
+
+            Py = Math.ceil(Math.sqrt(n*y/x));
+
+            if (Math.floor(Py*x/y)*Py < n) Sy = x/Math.ceil(x*Py/y);
+            else Sy = y/Py;
+
+            return Math.floor(Math.max(Sx, Sy));
+        };
+
+		var request = window.superagent;
+
+		/** Biff */
+
+	    var biff = new Biff();
+
+	    /** Store */
+
+		// http://dekoapp.com/parallax/
+	    _backgroundSettings = {
+			teamOptions: [],
+	    	width:  window.screen.width, //1242 * 0.5,
+	    	height: window.screen.height, //2208 * 0.5,
+			marginTop: 0, //580 * 0.5,
+			marginBottom: 0, //298 * 0.5,
+			team: null,
+			schedule: [],
+			backgroundInput: {
+				width: 0,
+				height: 0
+			}
+	    };
+
+	    function updateBackgroundSettings(object){
+			var name = object.name;
+			var value = object.value;
+			var updateStore = true;
+
+			if (name === 'width' || name === 'height') updateStore = (value >= 0 && value <= 4000);
+			if (name === 'marginTop') updateStore = (value >= 0 && value <= (_backgroundSettings.height - _backgroundSettings.marginBottom) * 0.9);
+			if (name === 'marginBottom') updateStore = (value >= 0 && value <= (_backgroundSettings.height - _backgroundSettings.marginTop) * 0.9);
+
+	        if (updateStore) _backgroundSettings[name] = value;
+
+			if (name === 'team') BackgroundActions.loadSchedule(value);
+	    }
+
+	    var BackgroundStore = biff.createStore({
+	        getBackgroundSettings: function() {
+				if (_backgroundSettings.teamOptions.length === 0) {
+					BackgroundActions.loadTeamOptions();
+				}
+
+	        	_backgroundSettings.teamWidth = _maxSquareSize(
+	        		_backgroundSettings.width - _backgroundSettings.marginTop,
+	        		_backgroundSettings.height - _backgroundSettings.marginBottom,
+	        		_backgroundSettings.schedule.length
+	        	);
+
+	           return _backgroundSettings;
+	        }
+	    }, function(payload){
+	        if(payload.actionType === 'UPDATE_BACKGROUND_SETTINGS') {
+	            updateBackgroundSettings(payload.object);
+	            BackgroundStore.emitChange();
+	        }
+	    });
+
+	    /** Actions */
+
+        var BackgroundActions = biff.createActions({
+            updateBackgroundSettings: function(object){
+				this.dispatch({
+					actionType: 'UPDATE_BACKGROUND_SETTINGS',
+					object: object
+				});
+            },
+			loadTeamOptions: function() {
+				request
+						.get('http://localhost:4001/team')
+						.end(function(err, res){
+							if (err) console.error(err); // TODO: Handle error
+							else {
+								this.dispatch({
+									actionType: 'UPDATE_BACKGROUND_SETTINGS',
+									object: {
+										name: 'teamOptions',
+										value: res.body
+									}
+								})
+							}
+						}.bind(this));
+			},
+			loadSchedule: function(teamName) {
+				request
+						.get('http://localhost:4001/team/' + teamName + '/schedule')
+						.end(function(err, res){
+							if (err) console.error(err); // TODO: Handle error
+							else {
+								this.dispatch({
+									actionType: 'UPDATE_BACKGROUND_SETTINGS',
+									object: {
+										name: 'schedule',
+										value: res.body
+									}
+								})
+							}
+						}.bind(this));
+			},
+			getScreenshot: function() {
+				request
+						.post('http://localhost:4001/screenshot')
+						.send({ html: React.renderToStaticMarkup(backgroundRendered) })
+						.end(function(err, res){
+							if (err) console.error(err); // TODO: Handle error
+							else {
+								var link = document.createElement('a');
+								link.download = 'schedule.png';
+								link.href = res.text;
+								//link.click();
+							}
+						});
+
+				var newWindow = window.open();
+				newWindow.document.write(React.renderToStaticMarkup(backgroundRendered));
+			}
+        });
+
+        function getBackgroundSettings() {
+        	return {
+               backgroundSettings: BackgroundStore.getBackgroundSettings()
+           }
+        }
+
+		var Team = React.createClass({
+			render: function() {
+				var containerStyle = {
+					display: 'inline-block',
+					position: 'relative',
+					//width: this.props.backgroundSettings.teamWidth + 'px',
+					height: 'auto',
+					padding: this.props.backgroundSettings.teamWidth * 0.2 + 'px',
+					paddingBottom: 0
+				};
+
+				// TODO: Remove helper, no longer needed for centering
+				var helperStyle = {
+					display: 'inline-block',
+    				height: '100%',
+    				verticalAlign: 'middle'
+				};
+
+				var imageStyle = {
+					//margin: '0 auto',
+					width: this.props.backgroundSettings.teamWidth * 0.6 + 'px',
+					height: this.props.backgroundSettings.teamWidth * 0.6 + 'px',
+					verticalAlign: 'middle',
+					backgroundImage: 'url("' + this.props.opponentTeam.ImageUri + '")',
+					backgroundRepeat: 'no-repeat',
+					backgroundSize: 'contain',
+					backgroundPosition: 'center'
+					/*
+					'-webkit-filter': 'grayscale(100%)',
+					filter: 'grayscale(100%)',
+					filter: 'gray',
+					filter: 'url("data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" height="0"><filter id="greyscale"><feColorMatrix type="matrix" values="0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0" /></filter></svg>#greyscale")'
+					*/
+				};
+
+				var dateStyle = {
+					padding: this.props.backgroundSettings.teamWidth * 0.015 + 'px',
+					fontFamily: 'Helvetica, sans-serif',
+					fontSize: this.props.backgroundSettings.teamWidth * 0.12 + 'px',
+					fontWeight: 'bold'
+				}
+
+				// <span style={helperStyle}></span>
+
+			  return (
+			  	<div style={containerStyle}>
+					<div style={imageStyle}></div>
+					<div style={dateStyle}>{moment(this.props.opponentTeam.Date).format('M/D')}</div>
+			  	</div>
+			  );
+			}
+		});
+
+		var BackgroundContainer = React.createClass({
+			render: function () {
+
+				// TODO: scale is not always correct when team images used. window height and backgroundInput heights are fine. must be problem with background settings. height?
+
+				var scale = Math.min(((window.innerHeight-this.props.backgroundSettings.backgroundInput.height - 20)/this.props.backgroundSettings.height), 1),
+				//(window.innerHeight - this.props.backgroundSettings.backgroundInput.height)/window.innerHeight,
+				// Math.min((window.innerWidth - this.props.backgroundSettings.backgroundInput.width)/window.innerWidth, (window.innerHeight - this.props.backgroundSettings.backgroundInput.height)/window.innerHeight),
+					style = {
+						border: '3px dashed black',
+						display: 'table',
+						'-webkit-transform': 'scale(' + scale + ')',
+						'-webkit-transform-origin': '0 0',
+						'-moz-transform': 'scale(' + scale + ')',
+						'-ms-transform': 'scale(' + scale + ')',
+						'-o-transform': 'scale(' + scale + ')',
+	//					transform: 'scale(0.2)',
+	//					transform: '0 0'
+					};
+
+				console.log('----------------');
+				console.log(window.innerHeight);
+				console.log(this.props.backgroundSettings.backgroundInput.height);
+				console.log(this.props.backgroundSettings.height);
+				console.log(scale);
+				console.log('================');
+
+				return (
+						<div style={style}>
+							<Background backgroundSettings={this.props.backgroundSettings} />
+						</div>
+				)
+			}
+		});
+
+		var backgroundRendered;
+		var Background = React.createClass({
+			render: function() {
+			  var style = {
+				  textAlign: 'center',
+				  display: 'table-cell',
+				  verticalAlign: 'middle',
+				  width: this.props.backgroundSettings.width + 'px',
+				  height: this.props.backgroundSettings.height + 'px',
+				  paddingTop: this.props.backgroundSettings.marginTop + 'px',
+				  paddingBottom: this.props.backgroundSettings.marginBottom + 'px'
+			  }
+
+			  var that = this;
+			  var teamNodes = this.props.backgroundSettings.schedule.map(function(opponentTeam, index){
+				  return <Team key={index} opponentTeam={opponentTeam} {...that.props} />
+			  });
+
+			  backgroundRendered = ( <div style={style}>{teamNodes}</div> );
+
+		    return backgroundRendered;
+		  }
+		});
+
+		var BackgroundInputs = React.createClass({
+			changeTeam: function(event) {
+				BackgroundActions.updateBackgroundSettings({
+					name: 'team',
+					value: event.target.value
+				});
+			},
+			getScreenshot: function() {
+				BackgroundActions.getScreenshot();
+			},
+			render: function() {
+				var teamOptionNodes = this.props.backgroundSettings.teamOptions.map(function(teamOption, index){
+					return <option value={teamOption} key={index}>{teamOption}</option>
+				});
+
+				return (
+					<div>
+						<div>
+							<select onChange={this.changeTeam}>
+								{teamOptionNodes}
+							</select>
+						</div>
+						<div>
+							<button type="button" className="btn btn-primary" onClick={this.getScreenshot}>Get Screenshot</button>
+						</div>
+						<div>
+							<h3>Outer Border:</h3>
+							<span>Width: </span><input type="text" name="width" value={this.props.backgroundSettings.width} onChange={this.props.onUpdate} />
+							<span>Height: </span><input type="text" name="height" value={this.props.backgroundSettings.height} onChange={this.props.onUpdate} />
+						</div>
+						<div>
+							<h3>Margins:</h3>
+							<span>Top: </span><input type="text" name="marginTop" value={this.props.backgroundSettings.marginTop} onChange={this.props.onUpdate} />
+							<span>Bottom: </span><input type="text" name="marginBottom" value={this.props.backgroundSettings.marginBottom} onChange={this.props.onUpdate} />
+						</div>
+					</div>
+				);
+			}
+		});
+
+		var App = React.createClass({
+			mixins: [BackgroundStore.mixin],
+			getInitialState: function(){
+                return getBackgroundSettings();
+            },
+			componentDidMount: function() {
+				window.addEventListener('resize', this.onWindowResize);
+				this.onWindowResize();
+			},
+            storeDidChange: function() {
+                this.setState(getBackgroundSettings());
+            },
+            onUpdateBackgroundSettings: function(event) {
+            	var value = event.target.value;
+
+            	if (isNaN(value) === false) {
+	            	BackgroundActions.updateBackgroundSettings({
+	            		name: event.target.name,
+	            		value: Number(value)
+	            	});
+	            }
+            },
+			onWindowResize: function() {
+				var backgroundSettings = this.state.backgroundSettings;
+				this.setState({
+					backgroundSettings: _.merge(
+							backgroundSettings,
+							{
+								backgroundInput: {
+									width: this.refs.backgroundInputs.getDOMNode().offsetWidth,
+									height: this.refs.backgroundInputs.getDOMNode().offsetHeight
+								}
+							}
+					)
+				});
+			},
+            render: function() {
+				var style = {
+					paddingBottom: '20px'
+				}
+
+				return (
+				  <div>
+				    <div style={style} ref="backgroundInputs">
+						<BackgroundInputs backgroundSettings={this.state.backgroundSettings} onUpdate={this.onUpdateBackgroundSettings} />
+					</div>
+				    <BackgroundContainer backgroundSettings={this.state.backgroundSettings} />
+				  </div>
+				);
+			}
+		});
+
+		React.render(
+		  <App />,
+		  document.getElementById('app-container')
+		);
+
+	</script>
+</body>
+</html>
