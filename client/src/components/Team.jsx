@@ -1,7 +1,5 @@
 (function() {
 
-    // TODO: Use pure component mixin
-
     var React = require('react'),
         moment = require('moment');
 

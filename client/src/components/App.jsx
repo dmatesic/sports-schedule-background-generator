@@ -13,7 +13,6 @@
             this.onWindowResize();
         },
         onWindowResize: function() {
-            // TODO: Should be able to update all props in one dispatch
             this.props.updateProp('background.container.size.width', window.innerWidth);
             this.props.updateProp(
                 'background.container.size.height',
@@ -49,7 +48,6 @@
     });
 
     function mapStateToProps(state) {
-        // TODO: This might be very inefficient
         return state.toJS();
     }
 

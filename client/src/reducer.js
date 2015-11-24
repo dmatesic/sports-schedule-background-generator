@@ -5,13 +5,10 @@
         util = require('./util');
 
     function updateProp(state, prop, val) {
-        // TODO: Update state with padding values to center x/y, would be max val for padding on each side where team width doesn't decrease
-        // TODO: Validation before updating the state
-
         // TODO: Is updateIn the correct function to use here? Don't care about the pre-existing val
         var nextState = state.updateIn(prop.split('.'), null, function() {
             return val;
-        })
+        });
 
         // TODO: Should only update teamWidth if schedule.length changes, not schedule
         var updateTeamWidth = _.some([

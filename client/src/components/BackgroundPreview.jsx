@@ -1,14 +1,11 @@
 (function() {
 
-    // TODO: Use pure component mixin
-
     var React = require('react'),
         Background = require('./Background');
 
     module.exports = React.createClass({
         render: function () {
 
-            // TODO: scale is not always correct when team images used. window height and backgroundInput heights are fine. must be problem with background settings. height?
             var style = {
                 border: '3px dashed black',
                 display: 'inline-block',

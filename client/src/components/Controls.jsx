@@ -1,11 +1,5 @@
 (function() {
 
-    // TODO: Use pure component mixin
-    // TODO: Add controls for centering schedule vertically and/or horizontally
-    // TODO: Use common screen sizes instead of width/height, text inputs should be a custom override
-    // TODO: Use sliders instead of margin text inputs (or something more user friendly)
-    // TODO: Form inputs should be a seperate component?
-
     var _ = require('lodash'),
         React = require('react');
 
@@ -25,7 +19,6 @@
             this.updateProp(event);
         },*/
         onSelectTeam: function(event) {
-            // TODO: Should also set the selectedTeam prop in the store
             this.props.loadSchedule(event.target.value);
         },
         onClickGenerateScreenshot: function() {
@@ -36,7 +29,6 @@
                 return <option value={team} key={index}>{team}</option>
             });
 
-            // TODO: Can the name in input properties be used to both get the defaultValue and set the prop via onChange? Maybe use a mixin?
             return (
                 <div id="controls">
                     <div>

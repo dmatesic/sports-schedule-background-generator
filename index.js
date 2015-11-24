@@ -5,7 +5,6 @@ var bodyParser = require('body-parser'),
 	core = require('./src/core.js'),
 	router = require('./src/router.js');
 
-// TODO: Create configuration file
 var config = {
 	express: {
 		port: process.env.PORT || 4000
@@ -28,9 +27,8 @@ var startServer = function() {
 		limit: '50mb'
 	}));
 
-	// TODO: Cors should only be allowed for cross port, not domain
-	// Cors required for webpack-server-dev cross ports and for
-	// screenshots (Request header field Content-Type is not allowed by Access-Control-Allow-Headers in preflight response)
+	// Cors required for webpack-server-dev cross ports and for screenshots
+	// (Request header field Content-Type is not allowed by Access-Control-Allow-Headers in preflight response)
 	app.use(cors());
 
 	app.use(express.static('client/dist'));
@@ -40,7 +38,6 @@ var startServer = function() {
 	// Error handling middleware
 	app.use(function(err, req, res, next) {
 		console.error(err);
-		// TODO: Not every error is 500 (e.g. invalid parameters should return 400), maybe look into github.com/ctavan/express-validator
 		res.sendStatus(500);
 	});
 

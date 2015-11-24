@@ -18,7 +18,7 @@
             request
             .get('team')
             .end(function(err, res) {
-                if (err) console.error(err); // TODO: Handle error
+                if (err) console.error(err);
                 else {
                     dispatch({
                         type: 'UPDATE_PROP',
@@ -35,7 +35,7 @@
             request
             .get('team/' + teamName + '/schedule')
             .end(function (err, res) {
-                if (err) console.error(err); // TODO: Handle error
+                if (err) console.error(err);
                 else {
                     dispatch({
                         type: 'UPDATE_PROP',
@@ -47,7 +47,6 @@
         }
     };
 
-    // TODO: Should this be here? Doesn't dispatch anything
     actionCreators.generateSchedule = function(props) {
         return function(dispatch) {
             var background = ReactDomServer.renderToStaticMarkup(< Background {...props}/>);
@@ -60,7 +59,7 @@
                 width: props.background.size.width
             })
             .end(function (err, res) {
-                if (err) console.error(err); // TODO: Handle error
+                if (err) console.error(err);
                 else {
                     var link = document.createElement('a');
                     link.download = 'schedule.png';

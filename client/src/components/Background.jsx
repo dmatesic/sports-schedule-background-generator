@@ -1,6 +1,4 @@
 (function() {
-
-    // TODO: Use pure component mixin
     
     var React = require('react'),
         ReactDOM = require('react-dom'),

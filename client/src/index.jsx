@@ -1,5 +1,3 @@
-// TODO: Keep state (team selected, sizea) in URI
-
 var Immutable = require('immutable'),
     React = require('react'),
     ReactDOM = require('react-dom'),

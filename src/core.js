@@ -57,7 +57,6 @@
             teamSchedule;
 
         if (!_schedule) throw new Error('Need to call core.init()');
-        // TODO: Better way of handling missing/invalid parameters? Some library out there?
         if (!opts.name) throw new Error('Missing required parameter: name');
 
         matchups = _.where(_schedule, { Team: opts.name });
@@ -67,7 +66,6 @@
                 opponentName: matchup.Opp,
                 date: matchup.Date,
                 location: matchup.Location,
-                // TODO: Screenshot generated does not include team images (probably need absolute path)
                 imageUri: util.format('/resources/images/ncaa/%s.png', encodeURIComponent(matchup.Opp.replace('&','')))
             }
         });
@@ -76,17 +74,11 @@
     };
 
     core.createScreenshot = function(opts) {
-        // TODO: After some time (, clean up tmp folder
-
         return new Promise(function(resolve, reject) {
 
-            // TODO: Better way of handling missing/invalid parameters? Some library out there?
             if (!opts.html) { reject('Missing required parameter: html'); return; }
             if (!opts.width) { reject('Missing required parameter: width'); return; }
             if (!opts.height) { reject('Missing required parameter: height'); return; }
-
-            // TODO: Append random string to image file name so that multiple users can create screenshots
-            // Another option, can webshot generate the image in memory?
 
             var clientFilePath = 'tmp/schedule.png',
                 serverFilePath = path.resolve('client/dist', clientFilePath);
