@@ -1,5 +1,6 @@
 .idea
+*.log
 /node_modules
 /client/node_modules
 /client/dist/bundle.*
-/client/dist/tmp
+/client/dist/tmp/

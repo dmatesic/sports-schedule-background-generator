@@ -32,8 +32,8 @@ var store = createStoreWithMiddleware(reducer, Immutable.fromJS({
         padding: {
             top: 580,
             bottom: 298,
-            right: 0,
-            left: 0
+            right: 123,
+            left: 123
         },
         team: {
             size: {
