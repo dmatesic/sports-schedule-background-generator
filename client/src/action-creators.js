@@ -3,6 +3,7 @@
     var React = require('react'),
         ReactDomServer = require('react-dom/server'),
         request = require('superagent'),
+        util = require('util'),
         Background = require('./components/Background');
 
     actionCreators.updateProp = function(prop, val) {
@@ -49,7 +50,14 @@
 
     actionCreators.generateSchedule = function(props) {
         return function(dispatch) {
-            var background = ReactDomServer.renderToStaticMarkup(< Background {...props}/>);
+            var background = util.format(
+                '<html>' +
+                    '<head><base href="%s"></head>' +
+                    '<body>%s</body>' +
+                '</html>',
+                window.location.origin,
+                ReactDomServer.renderToStaticMarkup(< Background {...props}/>)
+            );
 
             request
             .post('screenshot')
