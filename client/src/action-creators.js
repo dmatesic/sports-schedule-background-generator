@@ -70,6 +70,7 @@
                 if (err) console.error(err);
                 else {
                     var link = document.createElement('a');
+
                     link.download = 'schedule.png';
                     link.href = res.text;
 

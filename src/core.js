@@ -80,7 +80,7 @@
             if (!opts.width) { reject('Missing required parameter: width'); return; }
             if (!opts.height) { reject('Missing required parameter: height'); return; }
 
-            var clientFilePath = 'tmp/schedule.png',
+            var clientFilePath = util.format('tmp/schedule_%s.png', Math.random().toString(36).substring(2)),
                 serverFilePath = path.resolve('client/dist', clientFilePath);
 
             webshot(opts.html, serverFilePath, {
