@@ -7,12 +7,18 @@ var Immutable = require('immutable'),
     App = require('./components/App'),
     reducer = require('./reducer'),
     actionCreators = require('./action-creators');
+    //actionMiddleware = require('./action-middleware');
 
 var createStoreWithMiddleware = Redux.applyMiddleware(
     thunk
+    //actionMiddleware.logging
 )(Redux.createStore);
 
 var store = createStoreWithMiddleware(reducer, Immutable.fromJS({
+    ajax: {
+        working: false,
+        error: null
+    },
     teams: [],
     schedule: [],
     background: {

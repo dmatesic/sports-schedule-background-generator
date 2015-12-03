@@ -5,12 +5,10 @@
         util = require('./util');
 
     function updateProp(state, prop, val) {
-        // TODO: Is updateIn the correct function to use here? Don't care about the pre-existing val
         var nextState = state.updateIn(prop.split('.'), null, function() {
             return val;
         });
 
-        // TODO: Should only update teamWidth if schedule.length changes, not schedule
         var updateTeamWidth = _.some([
             'schedule',
             'background.size',
@@ -56,6 +54,12 @@
         switch (action.type) {
             case 'UPDATE_PROP':
                 return updateProp(state, action.prop, action.val);
+            case 'AJAX_START':
+                return updateProp(state, 'ajax', { working: true });
+            case 'AJAX_SUCCESS':
+                return updateProp(state, 'ajax', { working: false });
+            case 'AJAX_ERROR':
+                return updateProp(state, 'ajax', { working: false, error: action.error });
         }
 
         return state;

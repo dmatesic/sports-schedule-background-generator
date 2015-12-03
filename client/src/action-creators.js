@@ -16,16 +16,25 @@
 
     actionCreators.loadTeams = function() {
         return function(dispatch) {
+            dispatch({ type: 'AJAX_START' });
+
             request
             .get('team')
             .end(function(err, res) {
-                if (err) console.error(err);
+                if (err) {
+                    dispatch({
+                        type: 'AJAX_ERROR',
+                        error: err
+                    });
+                }
                 else {
+                    dispatch({type: 'AJAX_SUCCESS'});
+
                     dispatch({
                         type: 'UPDATE_PROP',
                         prop: 'teams',
                         val: res.body
-                    })
+                    });
                 }
             });
         }
@@ -33,11 +42,20 @@
 
     actionCreators.loadSchedule = function(teamName) {
         return function(dispatch) {
+            dispatch({ type: 'AJAX_START' });
+
             request
             .get('team/' + teamName + '/schedule')
             .end(function (err, res) {
-                if (err) console.error(err);
+                if (err) {
+                    dispatch({
+                        type: 'AJAX_ERROR',
+                        error: err
+                    });
+                }
                 else {
+                    dispatch({type: 'AJAX_SUCCESS'});
+
                     dispatch({
                         type: 'UPDATE_PROP',
                         prop: 'schedule',
@@ -50,6 +68,8 @@
 
     actionCreators.generateSchedule = function(props) {
         return function(dispatch) {
+            dispatch({ type: 'AJAX_START' });
+
             var background = util.format(
                 '<html>' +
                     '<head><base href="%s"></head>' +
@@ -67,8 +87,15 @@
                 width: props.background.size.width
             })
             .end(function (err, res) {
-                if (err) console.error(err);
+                if (err) {
+                    dispatch({
+                        type: 'AJAX_ERROR',
+                        error: err
+                    });
+                }
                 else {
+                    dispatch({type: 'AJAX_SUCCESS'});
+
                     var link = document.createElement('a');
 
                     link.download = 'schedule.png';

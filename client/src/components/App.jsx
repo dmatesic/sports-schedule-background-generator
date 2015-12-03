@@ -3,6 +3,7 @@
     var React = require('react'),
         ReactDOM = require('react-dom'),
         ReactRedux = require('react-redux'),
+        AjaxStatus = require('./AjaxStatus'),
         Controls = require('./Controls'),
         BackgroundPreview = require('./BackgroundPreview'),
         actionCreators = require('../action-creators');
@@ -37,8 +38,9 @@
 
             return (
                 <div ref="app" style={appStyle}>
+                    <AjaxStatus {...this.props} />
                     <div id="header" ref="header" style={headerStyle}>
-                        <Controls{...this.props} />
+                        <Controls {...this.props} />
                     </div>
                     <BackgroundPreview {...this.props} />
                     <div id="footer" ref="footer" style={footerStyle}></div>
