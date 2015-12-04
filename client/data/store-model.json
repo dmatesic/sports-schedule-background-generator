@@ -1,4 +1,8 @@
 {
+	ajax: {
+		working: false,
+		error: null
+	},
 	teams: ['Army', 'Air Force', 'Navy'],
 	selectedTeam: 'Air Force',
 	schedule: [

@@ -7,10 +7,10 @@
         render: function () {
 
             var ajaxStatusStyle = {
-                display: (this.props.ajax.working) ? 'block' : 'none'
+                display: (this.props.ajax.working || this.props.ajax.error) ? 'block' : 'none'
             };
 
-            var ajaxBackgroundtyle = {
+            var ajaxBackgroundStyle = {
                 position: 'absolute',
                 left: 0,
                 top: 0,
@@ -19,9 +19,10 @@
                 backgroundColor: 'black',
                 opacity: 0.3,
                 zIndex: 1000
-            }
+            };
 
             var ajaxSpinnerStyle = {
+                display: (this.props.ajax.working && !this.props.ajax.error) ? 'block' : 'none',
                 position: 'absolute',
                 left: 0,
                 top: 0,
@@ -34,10 +35,24 @@
                 zIndex: 999
             };
 
+            var ajaxErrorStyle = {
+                display: (this.props.ajax.error) ? 'block' : 'none',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)'
+            };
+
             return (
                 <div style={ajaxStatusStyle}>
-                    <div style={ajaxBackgroundtyle}></div>
+                    <div style={ajaxBackgroundStyle}></div>
                     <div style={ajaxSpinnerStyle}></div>
+                    <div style={ajaxErrorStyle}>
+                        <div className="alert alert-danger">
+                            <span className="glyphicon glyphicon-exclamation-sign"></span>
+                            <strong> Unexpected error occurred</strong>
+                        </div>
+                    </div>
                 </div>
             )
         }
