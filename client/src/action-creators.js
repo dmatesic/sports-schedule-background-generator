@@ -6,11 +6,19 @@
         util = require('util'),
         Background = require('./components/Background');
 
-    actionCreators.updateProp = function(prop, val) {
+    actionCreators.updateBackground = function(prop, val) {
         return {
-            type: 'UPDATE_PROP',
+            type: 'UPDATE_BACKGROUND',
             prop: prop,
             val: val
+        };
+    };
+
+    actionCreators.windowResized = function(width, height) {
+        return {
+            type: 'WINDOW_RESIZED',
+            width: width,
+            height: height
         };
     };
 
@@ -31,17 +39,21 @@
                     dispatch({type: 'AJAX_SUCCESS'});
 
                     dispatch({
-                        type: 'UPDATE_PROP',
-                        prop: 'teams',
-                        val: res.body
+                        type: 'UPDATE_TEAMS',
+                        teams: res.body
                     });
                 }
             });
         }
     };
 
-    actionCreators.loadSchedule = function(teamName) {
+    actionCreators.updateSelectedTeam = function(teamName) {
         return function(dispatch) {
+            dispatch({
+                type: 'UPDATE_SELECTED_TEAM',
+                selectedTeam: teamName
+            });
+
             dispatch({ type: 'AJAX_START' });
 
             request
@@ -57,9 +69,8 @@
                     dispatch({type: 'AJAX_SUCCESS'});
 
                     dispatch({
-                        type: 'UPDATE_PROP',
-                        prop: 'schedule',
-                        val: res.body
+                        type: 'UPDATE_SCHEDULE',
+                        schedule: res.body
                     })
                 }
             });

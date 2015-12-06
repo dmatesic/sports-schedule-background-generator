@@ -14,14 +14,14 @@
             this.onWindowResize();
         },
         onWindowResize: function() {
-            this.props.updateProp('background.container.size.width', window.innerWidth);
-            this.props.updateProp(
-                'background.container.size.height',
-                window.innerHeight -
-                40 - //TODO: Why is ReactDOM.findDOMNode(this.refs.app).outerHeight undefined?
-                ReactDOM.findDOMNode(this.refs.header).offsetHeight -
-                ReactDOM.findDOMNode(this.refs.footer).offsetHeight
-            );
+            var width = window.innerWidth,
+                height =
+                    window.innerHeight -
+                    40 - //TODO: Why is ReactDOM.findDOMNode(this.refs.app).outerHeight undefined?
+                    ReactDOM.findDOMNode(this.refs.header).offsetHeight -
+                    ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
+
+            this.props.windowResized(width,height);
         },
         render: function() {
             var appStyle = {

@@ -9,7 +9,7 @@
             this.delayedOnInputChange = _.debounce(this.updateProp, 300);
         },
         updateProp: function(event) {
-            this.props.updateProp(event.target.id.replace(new RegExp('-', 'g'), '.'), Number(event.target.value));
+            this.props.updateBackground(event.target.id.replace(new RegExp('-', 'g'), '.'), Number(event.target.value));
         },
         onInputChange: function(event) {
             event.persist();
@@ -19,7 +19,7 @@
             this.updateProp(event);
         },*/
         onSelectTeam: function(event) {
-            this.props.loadSchedule(event.target.value);
+            this.props.updateSelectedTeam(event.target.value);
         },
         onClickGenerateScreenshot: function() {
             this.props.generateSchedule(this.props);
