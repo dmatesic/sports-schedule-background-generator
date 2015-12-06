@@ -6,19 +6,19 @@
         util = require('util'),
         Background = require('./components/Background');
 
-    actionCreators.updateBackground = function(prop, val) {
-        return {
-            type: 'UPDATE_BACKGROUND',
-            prop: prop,
-            val: val
-        };
-    };
-
     actionCreators.windowResized = function(width, height) {
         return {
             type: 'WINDOW_RESIZED',
             width: width,
             height: height
+        };
+    };
+
+    actionCreators.updateBackground = function(prop, val) {
+        return {
+            type: 'UPDATE_BACKGROUND',
+            prop: prop,
+            val: val
         };
     };
 

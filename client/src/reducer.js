@@ -114,7 +114,7 @@
             case 'UPDATE_SCHEDULE':
                 return updateSchedule(state, action.schedule);
             case 'UPDATE_BACKGROUND':
-                return updateBackground(state, action.prop, action.value);
+                return updateBackground(state, action.prop, action.val);
         }
 
         return state;
