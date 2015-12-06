@@ -4,6 +4,41 @@
         Immutable = require('immutable'),
         util = require('./util');
 
+    var _initialState = {
+        ajax: {
+            working: false,
+            error: null
+        },
+        teams: [],
+        schedule: [],
+        background: {
+            container: {
+                size: {
+                    width: null,
+                    height: null
+                }
+            },
+            preview: {
+                scale: null
+            },
+            size: {
+                width: 1242,
+                height: 2208
+            },
+            padding: {
+                top: 580,
+                bottom: 298,
+                right: 123,
+                left: 123
+            },
+            team: {
+                size: {
+                    width: null
+                }
+            }
+        }
+    };
+
     function _updateBackgroundPreviewSize(state) {
         return state.updateIn('background.preview.scale'.split('.'), null, function() {
             return Math.min(
@@ -98,6 +133,8 @@
     }
 
     module.exports = function(state, action) {
+        if (_.isUndefined(state)) state = Immutable.fromJS(_initialState);
+
         switch (action.type) {
             case 'WINDOW_RESIZED':
                 return windowResized(state, action.width, action.height);
