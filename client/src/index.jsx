@@ -5,6 +5,8 @@ var reducer = require('./reducer');
 var actionCreators = require('./action-creators');
 // actionMiddleware = require('./action-middleware');
 /* eslint-disable no-unused-vars */
+var React = require('react');
+var ReactRedux = require('react-redux');
 var App = require('./components/App');
 /* eslint-enable no-unused-vars */
 

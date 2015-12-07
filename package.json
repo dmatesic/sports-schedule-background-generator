@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint && npm start",
     "start": "node index.js",
-    "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js"
+    "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js",
+    "lint": "eslint index.js src/** --config .eslintrc"
   },
   "keywords": [],
   "author": "Domenic Matesic",
@@ -19,5 +20,9 @@
     "lodash": "^3.10.1",
     "webshot": "^0.16.0",
     "webpack": "^1.12.6"
+  },
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^2.0.0"
   }
 }
