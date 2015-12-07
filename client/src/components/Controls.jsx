@@ -26,7 +26,7 @@
         },
         render: function() {
             var teamOptionNodes = this.props.teams.map(function(team, index){
-                return <option value={team} key={index}>{team}</option>
+                return <option value={team} key={index}>{team}</option>;
             });
 
             return (

@@ -16,7 +16,7 @@
             };
 
             var opponentTeamNodes = this.props.schedule.map(function(opponentTeam, index){
-                return <Team key={index} team={opponentTeam} {...this.props} />
+                return <Team key={index} team={opponentTeam} {...this.props} />;
             }.bind(this));
 
             return (

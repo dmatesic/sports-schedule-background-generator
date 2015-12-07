@@ -44,7 +44,7 @@
                     });
                 }
             });
-        }
+        };
     };
 
     actionCreators.updateSelectedTeam = function(teamName) {
@@ -71,10 +71,10 @@
                     dispatch({
                         type: 'UPDATE_SCHEDULE',
                         schedule: res.body
-                    })
+                    });
                 }
             });
-        }
+        };
     };
 
     actionCreators.generateSchedule = function(props) {
@@ -116,7 +116,6 @@
                     link.click();
 
                     document.body.removeChild(link);
-                    delete link;
                 }
             });
 
@@ -124,7 +123,7 @@
              var newWindow = window.open();
              newWindow.document.write(background);
              */
-        }
+        };
     };
 
 })(module.exports);

@@ -24,7 +24,7 @@
                 <div style={style}>
                     <Background {...this.props} />
                 </div>
-            )
+            );
         }
     });
     

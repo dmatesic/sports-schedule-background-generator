@@ -40,7 +40,7 @@
                     <div style={imageStyle}></div>
                     <div style={dateStyle}>{moment(this.props.team.date, 'M/D/YYYY').format('M/D')}</div>
                 </div>
-            )
+            );
         }
     });
 })();

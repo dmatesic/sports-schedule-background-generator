@@ -4,7 +4,7 @@
     util.maxSquareSize = function(x,y,n) {
         if (x === 0 || y === 0 || n === 0) return 0;
         else {
-            var Px = Math.ceil(Math.sqrt(n * x / y))
+            var Px = Math.ceil(Math.sqrt(n * x / y));
             var Sx, Sy, Py;
 
             if (Math.floor(Px * y / x) * Px < n) Sx = y / Math.ceil(Px * y / x);

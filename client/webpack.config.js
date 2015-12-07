@@ -12,7 +12,14 @@ module.exports = {
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loaders: ['react-hot', 'jsx-loader']
-        }]
+        }],
+        postLoaders: [
+            {
+                test: /\.js|\.jsx$/,
+                exclude: /node_modules/,
+                loader: 'jshint-loader'
+            }
+        ]
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
