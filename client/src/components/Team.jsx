@@ -3,6 +3,10 @@
   var moment = require('moment');
 
   module.exports = React.createClass({
+    propTypes: {
+      background: React.PropTypes.object,
+      team: React.PropTypes.object,
+    },
     render: function render() {
       var containerStyle = {
         display: 'inline-block',

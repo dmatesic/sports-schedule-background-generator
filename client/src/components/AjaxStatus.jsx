@@ -2,6 +2,9 @@
   var React = require('react');
 
   module.exports = React.createClass({
+    propTypes: {
+      ajax: React.PropTypes.object,
+    },
     render: function render() {
       var ajaxStatusStyle = {
         display: (this.props.ajax.working || this.props.ajax.error) ? 'block' : 'none',

@@ -1,14 +1,13 @@
+var React = require('react');
 var ReactDOM = require('react-dom');
 var Redux = require('redux');
+var ReactRedux = require('react-redux');
 var thunk = require('redux-thunk');
 var reducer = require('./reducer');
 var actionCreators = require('./action-creators');
-// actionMiddleware = require('./action-middleware');
-/* eslint-disable no-unused-vars */
-var React = require('react');
-var ReactRedux = require('react-redux');
+
 var App = require('./components/App');
-/* eslint-enable no-unused-vars */
+// actionMiddleware = require('./action-middleware');
 
 var createStoreWithMiddleware = Redux.applyMiddleware(
   thunk

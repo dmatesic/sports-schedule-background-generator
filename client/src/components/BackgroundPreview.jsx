@@ -1,10 +1,11 @@
 (function backgroundPreviewModule() {
   var React = require('react');
-  /* eslint-disable no-unused-vars */
   var Background = require('./Background');
-  /* eslint-enable no-unused-vars */
 
   module.exports = React.createClass({
+    propTypes: {
+      background: React.PropTypes.object,
+    },
     render: function render() {
       var style = {
         border: '3px dashed black',

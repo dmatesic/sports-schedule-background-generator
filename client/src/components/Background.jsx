@@ -1,10 +1,12 @@
 (function backgroundModule() {
   var React = require('react');
-  /* eslint-disable no-unused-vars */
   var Team = require('./Team');
-  /* eslint-enable no-unused-vars */
 
   module.exports = React.createClass({
+    propTypes: {
+      background: React.PropTypes.object,
+      schedule: React.PropTypes.array,
+    },
     render: function render() {
       var style = {
         width: this.props.background.size.width + 'px',

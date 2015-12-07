@@ -3,12 +3,16 @@
   var React = require('react');
 
   module.exports = React.createClass({
+    propTypes: {
+      background: React.PropTypes.object,
+      teams: React.PropTypes.array,
+      updateBackground: React.PropTypes.func,
+      updateSelectedTeam: React.PropTypes.func,
+      generateSchedule: React.PropTypes.func,
+    },
     componentWillMount: function componentWillMount() {
       // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
       this.delayedOnInputChange = _.debounce(this.updateProp, 300);
-    },
-    updateProp: function updateProp(event) {
-      this.props.updateBackground(event.target.id.replace(new RegExp('-', 'g'), '.'), Number(event.target.value));
     },
     onInputChange: function onInputChange(event) {
       event.persist();
@@ -23,6 +27,9 @@
     onClickGenerateScreenshot: function onClickGenerateScreenshot() {
       this.props.generateSchedule(this.props);
     },
+    updateProp: function updateProp(event) {
+      this.props.updateBackground(event.target.id.replace(new RegExp('-', 'g'), '.'), Number(event.target.value));
+    },
     render: function render() {
       var teamOptionNodes = this.props.teams.map(function map(team, index) {
         return <option value={team} key={index}>{team}</option>;
@@ -34,7 +41,7 @@
             <div className="form-group form-group-large">
               <label htmlFor="selectedTeam">Team</label>
               <select className="form-control" id="selectedTeam" onChange={this.onSelectTeam}>
-                <option disabled value={true}>Select a Team</option>
+                <option disabled value>Select a Team</option>
                 {teamOptionNodes}
               </select>
             </div>

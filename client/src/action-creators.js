@@ -1,10 +1,9 @@
 (function actionCreatorsModule(actionCreators) {
+  var React = require('react');
   var ReactDomServer = require('react-dom/server');
   var request = require('superagent');
   var util = require('util');
-  /* eslint-disable no-unused-vars */
   var Background = require('./components/Background');
-  /* eslint-enable no-unused-vars */
 
   actionCreators.windowResized = function windowResized(width, height) {
     return {

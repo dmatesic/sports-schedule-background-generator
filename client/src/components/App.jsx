@@ -3,13 +3,14 @@
   var ReactDOM = require('react-dom');
   var ReactRedux = require('react-redux');
   var actionCreators = require('../action-creators');
-  /* eslint-disable no-unused-vars */
   var AjaxStatus = require('./AjaxStatus');
   var Controls = require('./Controls');
   var BackgroundPreview = require('./BackgroundPreview');
-  /* eslint-enable no-unused-vars */
 
   var App = React.createClass({
+    propTypes: {
+      windowResized: React.PropTypes.func,
+    },
     componentDidMount: function componentDidMount() {
       window.addEventListener('resize', this.onWindowResize);
       this.onWindowResize();
