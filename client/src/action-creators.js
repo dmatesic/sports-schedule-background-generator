@@ -1,129 +1,129 @@
-(function(actionCreators) {
+(function actionCreatorsModule(actionCreators) {
+  var ReactDomServer = require('react-dom/server');
+  var request = require('superagent');
+  var util = require('util');
+  /* eslint-disable no-unused-vars */
+  var Background = require('./components/Background');
+  /* eslint-enable no-unused-vars */
 
-    var React = require('react'),
-        ReactDomServer = require('react-dom/server'),
-        request = require('superagent'),
-        util = require('util'),
-        Background = require('./components/Background');
-
-    actionCreators.windowResized = function(width, height) {
-        return {
-            type: 'WINDOW_RESIZED',
-            width: width,
-            height: height
-        };
+  actionCreators.windowResized = function windowResized(width, height) {
+    return {
+      type: 'WINDOW_RESIZED',
+      width: width,
+      height: height,
     };
+  };
 
-    actionCreators.updateBackground = function(prop, val) {
-        return {
-            type: 'UPDATE_BACKGROUND',
-            prop: prop,
-            val: val
-        };
+  actionCreators.updateBackground = function updateBackground(prop, val) {
+    return {
+      type: 'UPDATE_BACKGROUND',
+      prop: prop,
+      val: val,
     };
+  };
 
-    actionCreators.loadTeams = function() {
-        return function(dispatch) {
-            dispatch({ type: 'AJAX_START' });
+  actionCreators.loadTeams = function loadTeams() {
+    return function dispatchFn(dispatch) {
+      dispatch({ type: 'AJAX_START' });
 
-            request
-            .get('team')
-            .end(function(err, res) {
-                if (err) {
-                    dispatch({
-                        type: 'AJAX_ERROR',
-                        error: err
-                    });
-                }
-                else {
-                    dispatch({type: 'AJAX_SUCCESS'});
+      request
+      .get('team')
+      .end(function end(err, res) {
+        if (err) {
+          dispatch({
+            type: 'AJAX_ERROR',
+            error: err,
+          });
+        } else {
+          dispatch({ type: 'AJAX_SUCCESS' });
 
-                    dispatch({
-                        type: 'UPDATE_TEAMS',
-                        teams: res.body
-                    });
-                }
-            });
-        };
+          dispatch({
+            type: 'UPDATE_TEAMS',
+            teams: res.body,
+          });
+        }
+      });
     };
+  };
 
-    actionCreators.updateSelectedTeam = function(teamName) {
-        return function(dispatch) {
-            dispatch({
-                type: 'UPDATE_SELECTED_TEAM',
-                selectedTeam: teamName
-            });
+  actionCreators.updateSelectedTeam = function updateSelectedTeam(teamName) {
+    return function dispatchFn(dispatch) {
+      dispatch({
+        type: 'UPDATE_SELECTED_TEAM',
+        selectedTeam: teamName,
+      });
 
-            dispatch({ type: 'AJAX_START' });
+      dispatch({ type: 'AJAX_START' });
 
-            request
-            .get('team/' + teamName + '/schedule')
-            .end(function (err, res) {
-                if (err) {
-                    dispatch({
-                        type: 'AJAX_ERROR',
-                        error: err
-                    });
-                }
-                else {
-                    dispatch({type: 'AJAX_SUCCESS'});
+      request
+      .get('team/' + teamName + '/schedule')
+      .end(function end(err, res) {
+        if (err) {
+          dispatch({
+            type: 'AJAX_ERROR',
+            error: err,
+          });
+        } else {
+          dispatch({ type: 'AJAX_SUCCESS' });
 
-                    dispatch({
-                        type: 'UPDATE_SCHEDULE',
-                        schedule: res.body
-                    });
-                }
-            });
-        };
+          dispatch({
+            type: 'UPDATE_SCHEDULE',
+            schedule: res.body,
+          });
+        }
+      });
     };
+  };
 
-    actionCreators.generateSchedule = function(props) {
-        return function(dispatch) {
-            dispatch({ type: 'AJAX_START' });
+  actionCreators.generateSchedule = function generateSchedule(props) {
+    return function dispatchFn(dispatch) {
+      var background;
 
-            var background = util.format(
-                '<html>' +
-                    '<head><base href="%s"></head>' +
-                    '<body>%s</body>' +
-                '</html>',
-                window.location.origin,
-                ReactDomServer.renderToStaticMarkup(< Background {...props}/>)
-            );
+      dispatch({ type: 'AJAX_START' });
 
-            request
-            .post('screenshot')
-            .send({
-                html: background,
-                height: props.background.size.height,
-                width: props.background.size.width
-            })
-            .end(function (err, res) {
-                if (err) {
-                    dispatch({
-                        type: 'AJAX_ERROR',
-                        error: err
-                    });
-                }
-                else {
-                    dispatch({type: 'AJAX_SUCCESS'});
+      background = util.format(
+        '<html>' +
+        '<head><base href="%s"></head>' +
+        '<body>%s</body>' +
+        '</html>',
+        window.location.origin,
+        ReactDomServer.renderToStaticMarkup(< Background {...props}/>)
+      );
 
-                    var link = document.createElement('a');
+      request
+      .post('screenshot')
+      .send({
+        html: background,
+        height: props.background.size.height,
+        width: props.background.size.width,
+      })
+      .end(function end(err, res) {
+        var link;
 
-                    link.download = 'schedule.png';
-                    link.href = res.text;
+        if (err) {
+          dispatch({
+            type: 'AJAX_ERROR',
+            error: err,
+          });
+        } else {
+          dispatch({ type: 'AJAX_SUCCESS' });
 
-                    document.body.appendChild(link);
-                    link.click();
+          link = document.createElement('a');
 
-                    document.body.removeChild(link);
-                }
-            });
+          link.download = 'schedule.png';
+          link.href = res.text;
 
-            /*
-             var newWindow = window.open();
-             newWindow.document.write(background);
-             */
-        };
+          document.body.appendChild(link);
+          link.click();
+
+          document.body.removeChild(link);
+        }
+      });
+
+      /*
+       var newWindow = window.open();
+       newWindow.document.write(background);
+       */
     };
-
+  };
 })(module.exports);

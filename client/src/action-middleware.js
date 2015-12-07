@@ -1,13 +1,11 @@
-(function(actionMiddleware) {
+(function actionMiddlewareModule(actionMiddleware) {
+  actionMiddleware.logging = function logging(store) {
+    return function (next) {
+      return function (action) {
+        console.log(action);
 
-    actionMiddleware.logging = function(store) {
-        return function(next) {
-            return function(action) {
-                console.log(action);
-
-                return next(action);
-            }
-        }
-    };
-
+        return next(action);
+      }
+    }
+  };
 })(module.exports);

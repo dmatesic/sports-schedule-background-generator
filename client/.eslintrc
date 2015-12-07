@@ -1,3 +1,32 @@
 {
-    "extends": "airbnb/base"
+    "extends": "airbnb/base",
+    "rules": {
+        /* Disable ES6 Rules */
+
+        //"arrow-body-style": "",
+        //"arrow-parens": "",
+        //"arrow-spacing": "",
+        //"constructor-super": "",
+        //"generator-star-spacing": "",
+        //"no-arrow-condition": "",
+        //"no-class-assign": "",
+        //"no-const-assign": "",
+        //"no-dupe-class-members": "",
+        //"no-this-before-super": "",
+        "no-var": 0,
+        //"object-shorthand": "",
+        //"prefer-arrow-callback": "",
+        //"prefer-const": "",
+        //"prefer-reflect": "",
+        //"prefer-spread": "",
+        //"prefer-template": "",
+        //"require-yield": "",
+
+        // Disable rules for Immutable.JS
+
+        "new-cap": [2, {"capIsNewExceptions": [
+            "Immutable.List",
+            "Immutable.Map"
+        ]}]
+    }
 }
