@@ -8,18 +8,16 @@ module.exports = {
         './src/index'
     ],
     module: {
+        preLoaders: [{
+            test: /\.js|\.jsx$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader'
+        }],
         loaders: [{
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loaders: ['react-hot', 'jsx-loader']
-        }],
-        postLoaders: [
-            {
-                test: /\.js|\.jsx$/,
-                exclude: /node_modules/,
-                loader: 'jshint-loader'
-            }
-        ]
+        }]
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
@@ -42,5 +40,8 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin()
-    ]
+    ],
+    eslint: {
+        configFile: '.eslintrc'
+    }
 };
