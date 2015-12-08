@@ -1,5 +1,6 @@
 (function teamModule() {
   var React = require('react');
+  var PureRenderMixin = require('react-addons-pure-render-mixin');
   var moment = require('moment');
 
   module.exports = React.createClass({
@@ -7,6 +8,7 @@
       background: React.PropTypes.object,
       team: React.PropTypes.object,
     },
+    mixins: [PureRenderMixin],
     render: function render() {
       var containerStyle = {
         display: 'inline-block',

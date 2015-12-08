@@ -1,5 +1,6 @@
 (function backgroundModule() {
   var React = require('react');
+  var PureRenderMixin = require('react-addons-pure-render-mixin');
   var Team = require('./Team');
 
   module.exports = React.createClass({
@@ -7,6 +8,7 @@
       background: React.PropTypes.object,
       schedule: React.PropTypes.array,
     },
+    mixins: [PureRenderMixin],
     render: function render() {
       var style = {
         width: this.props.background.size.width + 'px',

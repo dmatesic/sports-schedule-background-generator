@@ -1,10 +1,12 @@
 (function ajaxStatusModule() {
   var React = require('react');
+  var PureRenderMixin = require('react-addons-pure-render-mixin');
 
   module.exports = React.createClass({
     propTypes: {
       ajax: React.PropTypes.object,
     },
+    mixins: [PureRenderMixin],
     render: function render() {
       var ajaxStatusStyle = {
         display: (this.props.ajax.working || this.props.ajax.error) ? 'block' : 'none',

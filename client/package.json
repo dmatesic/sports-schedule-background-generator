@@ -21,17 +21,17 @@
   },
   "dependencies": {
     "immutable": "^3.7.5",
+    "json-loader": "^0.5.3",
+    "jsx-loader": "^0.13.2",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "react": "^0.14.3",
-    "react-addons-pure-render-mixin": "^0.14.2",
+    "react-addons-pure-render-mixin": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
     "redux": "^3.0.4",
     "redux-thunk": "^1.0.0",
-    "superagent": "^1.4.0",
-    "json-loader": "^0.5.3",
-    "jsx-loader": "^0.13.2"
+    "superagent": "^1.4.0"
   }
 }

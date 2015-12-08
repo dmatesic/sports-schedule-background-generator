@@ -1,11 +1,13 @@
 (function backgroundPreviewModule() {
   var React = require('react');
+  var PureRenderMixin = require('react-addons-pure-render-mixin');
   var Background = require('./Background');
 
   module.exports = React.createClass({
     propTypes: {
       background: React.PropTypes.object,
     },
+    mixins: [PureRenderMixin],
     render: function render() {
       var style = {
         border: '3px dashed black',

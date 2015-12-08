@@ -1,6 +1,7 @@
 (function controlsModule() {
-  var _ = require('lodash');
   var React = require('react');
+  var PureRenderMixin = require('react-addons-pure-render-mixin');
+  var _ = require('lodash');
 
   module.exports = React.createClass({
     propTypes: {
@@ -10,6 +11,7 @@
       updateSelectedTeam: React.PropTypes.func,
       generateSchedule: React.PropTypes.func,
     },
+    mixins: [PureRenderMixin],
     componentWillMount: function componentWillMount() {
       // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
       this.delayedOnInputChange = _.debounce(this.updateProp, 300);
