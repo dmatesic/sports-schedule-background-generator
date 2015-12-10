@@ -151,6 +151,8 @@
     var pathObject;
     var nextState;
 
+    if (!pathString) return state;
+
     // Remove leading /? characters
     while (pathString.charAt(0) === '/' || pathString.charAt(0) === '?') pathString = pathString.substr(1);
 
@@ -185,8 +187,10 @@
       case 'UPDATE_BACKGROUND':
         return updateBackground(state, action.prop, action.val);
       case ReduxSimpleRouter.UPDATE_PATH:
-        return updatePath(state, action.path, action.avoidRouterUpdate);
-      // TODO: Handle initPath
+        return updatePath(state, action.payload.path);
+      // TODO: Use ReduxSimpleRouter.INIT_PATH when it is exported (https://github.com/jlongster/redux-simple-router/issues/105)
+      case '@@router/INIT_PATH':
+        return updatePath(state, action.payload.path);
       default:
         return state;
     }

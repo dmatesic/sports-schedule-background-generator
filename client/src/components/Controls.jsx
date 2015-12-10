@@ -7,12 +7,13 @@
 
   module.exports = React.createClass({
     propTypes: {
+      selectedTeam: React.PropTypes.string,
       background: React.PropTypes.object,
       teams: React.PropTypes.array,
       updateBackground: React.PropTypes.func,
       updateSelectedTeam: React.PropTypes.func,
       generateSchedule: React.PropTypes.func,
-      updatePath: React.PropTypes.func,
+      pushPath: React.PropTypes.func,
     },
     mixins: [PureRenderMixin],
     componentWillMount: function componentWillMount() {
@@ -27,7 +28,7 @@
      this.updateProp(event);
      }, */
     onSelectTeam: function onSelectTeam(event) {
-      this.props.updatePath(util.format(
+      this.props.pushPath(util.format(
         '/?%s',
         querystring.stringify({ selectedTeam: event.target.value })
       ));
@@ -48,8 +49,8 @@
           <div>
             <div className="form-group form-group-large">
               <label htmlFor="selectedTeam">Team</label>
-              <select className="form-control" id="selectedTeam" onChange={this.onSelectTeam}>
-                <option disabled value>Select a Team</option>
+              <select className="form-control" id="selectedTeam" value={this.props.selectedTeam} onChange={this.onSelectTeam}>
+                <option disabled>Select a Team</option>
                 {teamOptionNodes}
               </select>
             </div>

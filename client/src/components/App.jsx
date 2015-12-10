@@ -9,7 +9,7 @@
   var Controls = require('./Controls');
   var BackgroundPreview = require('./BackgroundPreview');
 
-  var updatePath = ReduxSimpleRouter.updatePath;
+  var pushPath = ReduxSimpleRouter.pushPath;
 
   var App = React.createClass({
     propTypes: {
@@ -73,7 +73,7 @@
     mapStateToProps,
     _.merge(
       actionCreators,
-      { updatePath }
+      { pushPath }
     )
   )(App);
 })();
