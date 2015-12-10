@@ -27,14 +27,14 @@
         scale: null,
       },
       size: {
-        width: 1242,
-        height: 2208,
+        width: null, // 1242,
+        height: null, // 2208,
       },
       padding: {
-        top: 580,
-        bottom: 298,
-        right: 123,
-        left: 123,
+        top: null, // 580,
+        bottom: null, // 298,
+        right: null, // 123,
+        left: null, // 123,
       },
       team: {
         size: {
@@ -158,7 +158,7 @@
   function updatePath(state, path) {
     var pathString = path;
     var pathObject;
-    var nextState;
+    var nextState = state;
 
     if (!pathString) return state;
 
@@ -168,10 +168,34 @@
     pathObject = querystring.parse(pathString);
 
     if (pathObject.selectedTeam && pathObject.selectedTeam !== state.get('selectedTeam')) {
-      nextState = updateSelectedTeam(state, pathObject.selectedTeam);
+      nextState = updateSelectedTeam(nextState, pathObject.selectedTeam);
     }
 
-    return nextState || state;
+    if (pathObject.width && pathObject.width !== state.getIn('background.size.width'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.size.width', pathObject.width);
+    }
+
+    if (pathObject.height && pathObject.height !== state.getIn('background.size.height'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.size.height', pathObject.height);
+    }
+
+    if (pathObject.topPadding && pathObject.topPadding !== state.getIn('background.padding.top'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.padding.top', pathObject.topPadding);
+    }
+
+    if (pathObject.bottomPadding && pathObject.bottomPadding !== state.getIn('background.padding.bottom'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.padding.bottom', pathObject.bottomPadding);
+    }
+
+    if (pathObject.leftPadding && pathObject.leftPadding !== state.getIn('background.padding.left'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.padding.left', pathObject.leftPadding);
+    }
+
+    if (pathObject.rightPadding && pathObject.rightPadding !== state.getIn('background.padding.right'.split('.'))) {
+      nextState = updateBackground(nextState, 'background.padding.right', pathObject.rightPadding);
+    }
+
+    return nextState;
   }
 
   module.exports = function exports(stateInput, action) {
