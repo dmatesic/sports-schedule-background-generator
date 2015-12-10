@@ -1,9 +1,14 @@
 (function reducerModule() {
   var _ = require('lodash');
+  var querystring = require('querystring');
   var Immutable = require('immutable');
+  var ReduxSimpleRouter = require('redux-simple-router');
   var util = require('./util');
 
   var _initialState = {
+    needToFetch: {
+      schedule: false,
+    },
     ajax: {
       working: false,
       error: null,
@@ -99,9 +104,15 @@
   }
 
   function updateSelectedTeam(state, selectedTeam) {
-    return state.update('selectedTeam', null, function update() {
+    var nextState = state.update('selectedTeam', null, function update() {
       return selectedTeam;
     });
+
+    nextState = nextState.updateIn('needToFetch.schedule'.split('.'), null, function updateIn() {
+      return true;
+    });
+
+    return nextState;
   }
 
   function updateSchedule(state, schedule) {
@@ -110,6 +121,10 @@
 
     var nextState = state.update('schedule', null, function update() {
       return immutableSchedule;
+    });
+
+    nextState = nextState.updateIn('needToFetch.schedule'.split('.'), null, function updateIn() {
+      return false;
     });
 
     if (previousScheduleLength !== immutableSchedule.size) {
@@ -129,6 +144,23 @@
     nextState = _updateTeamWidth(nextState);
 
     return nextState;
+  }
+
+  function updatePath(state, path) {
+    var pathString = path;
+    var pathObject;
+    var nextState;
+
+    // Remove leading /? characters
+    while (pathString.charAt(0) === '/' || pathString.charAt(0) === '?') pathString = pathString.substr(1);
+
+    pathObject = querystring.parse(pathString);
+
+    if (pathObject.selectedTeam && pathObject.selectedTeam !== state.get('selectedTeam')) {
+      nextState = updateSelectedTeam(state, pathObject.selectedTeam);
+    }
+
+    return nextState || state;
   }
 
   module.exports = function exports(stateInput, action) {
@@ -152,6 +184,9 @@
         return updateSchedule(state, action.schedule);
       case 'UPDATE_BACKGROUND':
         return updateBackground(state, action.prop, action.val);
+      case ReduxSimpleRouter.UPDATE_PATH:
+        return updatePath(state, action.path, action.avoidRouterUpdate);
+      // TODO: Handle initPath
       default:
         return state;
     }

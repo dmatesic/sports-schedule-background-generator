@@ -45,13 +45,8 @@
     };
   };
 
-  actionCreators.updateSelectedTeam = function updateSelectedTeam(teamName) {
+  actionCreators.loadSchedule = function loadSchedule(teamName) {
     return function dispatchFn(dispatch) {
-      dispatch({
-        type: 'UPDATE_SELECTED_TEAM',
-        selectedTeam: teamName,
-      });
-
       dispatch({ type: 'AJAX_START' });
 
       request

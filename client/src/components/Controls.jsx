@@ -1,7 +1,9 @@
 (function controlsModule() {
+  var _ = require('lodash');
+  var querystring = require('querystring');
+  var util = require('util');
   var React = require('react');
   var PureRenderMixin = require('react-addons-pure-render-mixin');
-  var _ = require('lodash');
 
   module.exports = React.createClass({
     propTypes: {
@@ -10,6 +12,7 @@
       updateBackground: React.PropTypes.func,
       updateSelectedTeam: React.PropTypes.func,
       generateSchedule: React.PropTypes.func,
+      updatePath: React.PropTypes.func,
     },
     mixins: [PureRenderMixin],
     componentWillMount: function componentWillMount() {
@@ -24,7 +27,10 @@
      this.updateProp(event);
      }, */
     onSelectTeam: function onSelectTeam(event) {
-      this.props.updateSelectedTeam(event.target.value);
+      this.props.updatePath(util.format(
+        '/?%s',
+        querystring.stringify({ selectedTeam: event.target.value })
+      ));
     },
     onClickGenerateScreenshot: function onClickGenerateScreenshot() {
       this.props.generateSchedule(this.props);

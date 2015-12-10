@@ -1,19 +1,30 @@
 (function appModule() {
+  var _ = require('lodash');
   var React = require('react');
   var ReactDOM = require('react-dom');
   var ReactRedux = require('react-redux');
+  var ReduxSimpleRouter = require('redux-simple-router');
   var actionCreators = require('../action-creators');
   var AjaxStatus = require('./AjaxStatus');
   var Controls = require('./Controls');
   var BackgroundPreview = require('./BackgroundPreview');
 
+  var updatePath = ReduxSimpleRouter.updatePath;
+
   var App = React.createClass({
     propTypes: {
+      selectedTeam: React.PropTypes.string,
+      needToFetch: React.PropTypes.object,
+      loadSchedule: React.PropTypes.func,
       windowResized: React.PropTypes.func,
     },
     componentDidMount: function componentDidMount() {
       window.addEventListener('resize', this.onWindowResize);
       this.onWindowResize();
+      this.fetchAdditionalProps();
+    },
+    componentDidUpdate: function componentDidUpdate() {
+      this.fetchAdditionalProps();
     },
     onWindowResize: function onWindowResize() {
       var width = window.innerWidth;
@@ -24,6 +35,9 @@
           ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
 
       this.props.windowResized(width, height);
+    },
+    fetchAdditionalProps: function fetchAdditionalProps() {
+      if (this.props.needToFetch.schedule === true) this.props.loadSchedule(this.props.selectedTeam);
     },
     render: function render() {
       var appStyle = {
@@ -52,11 +66,14 @@
   });
 
   function mapStateToProps(state) {
-    return state.toJS();
+    return state.app.toJS();
   }
 
   module.exports = ReactRedux.connect(
     mapStateToProps,
-    actionCreators
+    _.merge(
+      actionCreators,
+      { updatePath }
+    )
   )(App);
 })();

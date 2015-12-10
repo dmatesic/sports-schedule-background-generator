@@ -1,26 +1,41 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var ReactRouter = require('react-router');
 var Redux = require('redux');
 var ReactRedux = require('react-redux');
+var ReduxSimpleRouter = require('redux-simple-router');
 var thunk = require('redux-thunk');
-var reducer = require('./reducer');
+var history = require('history');
+var appReducer = require('./reducer');
 var actionCreators = require('./action-creators');
-
+var actionMiddleware = require('./action-middleware');
 var App = require('./components/App');
-// actionMiddleware = require('./action-middleware');
 
-var createStoreWithMiddleware = Redux.applyMiddleware(
-  thunk
-  // actionMiddleware.logging
-)(Redux.createStore);
+var routes = (
+  <ReactRouter.Route path="/" component={App}/>
+);
 
-var store = createStoreWithMiddleware(reducer);
+var reducer = Redux.combineReducers({
+  routing: ReduxSimpleRouter.routeReducer,
+  app: appReducer,
+});
+
+var store = Redux.applyMiddleware(
+  thunk,
+  actionMiddleware.logging
+)(Redux.createStore)(reducer);
+
+var createHistory = history.createHistory();
+
+ReduxSimpleRouter.syncReduxAndRouter(createHistory, store);
 
 store.dispatch(actionCreators.loadTeams());
 
 ReactDOM.render(
   <ReactRedux.Provider store={store}>
-    <App />
-  </ReactRedux.Provider>,
+    <ReactRouter.Router history={createHistory}>
+      {routes}
+    </ReactRouter.Router>
+  </ ReactRedux.Provider >,
   document.getElementById('app')
 );
