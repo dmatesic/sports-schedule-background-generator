@@ -3,7 +3,10 @@
   var querystring = require('querystring');
   var Immutable = require('immutable');
   var ReduxSimpleRouter = require('redux-simple-router');
+  var constants = require('./constants');
   var util = require('./util');
+
+  var QUERY_PARAM_NAMES = constants.QUERY_PARAM_NAMES;
 
   var _initialState = {
     needToFetch: {
@@ -171,29 +174,11 @@
       nextState = updateSelectedTeam(nextState, pathObject.selectedTeam);
     }
 
-    if (pathObject.width && pathObject.width !== state.getIn('background.size.width'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.size.width', pathObject.width);
-    }
-
-    if (pathObject.height && pathObject.height !== state.getIn('background.size.height'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.size.height', pathObject.height);
-    }
-
-    if (pathObject.topPadding && pathObject.topPadding !== state.getIn('background.padding.top'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.padding.top', pathObject.topPadding);
-    }
-
-    if (pathObject.bottomPadding && pathObject.bottomPadding !== state.getIn('background.padding.bottom'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.padding.bottom', pathObject.bottomPadding);
-    }
-
-    if (pathObject.leftPadding && pathObject.leftPadding !== state.getIn('background.padding.left'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.padding.left', pathObject.leftPadding);
-    }
-
-    if (pathObject.rightPadding && pathObject.rightPadding !== state.getIn('background.padding.right'.split('.'))) {
-      nextState = updateBackground(nextState, 'background.padding.right', pathObject.rightPadding);
-    }
+    _.each(QUERY_PARAM_NAMES, function each(queryParamName, propName) {
+      if (pathObject[queryParamName] && pathObject[queryParamName] !== state.getIn(propName.split('.'))) {
+        nextState = updateBackground(nextState, propName, pathObject[queryParamName]);
+      }
+    });
 
     return nextState;
   }

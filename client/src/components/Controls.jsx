@@ -4,6 +4,9 @@
   var util = require('util');
   var React = require('react');
   var PureRenderMixin = require('react-addons-pure-render-mixin');
+  var constants = require('../constants');
+
+  var QUERY_PARAM_NAMES = constants.QUERY_PARAM_NAMES;
 
   module.exports = React.createClass({
     propTypes: {
@@ -45,15 +48,7 @@
     },
     updateInput: function updateInput(event) {
       var propName = event.target.id.replace(new RegExp('-', 'g'), '.');
-      var queryParamNames = {
-        'background.size.width': 'width',
-        'background.size.height': 'height',
-        'background.padding.top': 'topPadding',
-        'background.padding.bottom': 'bottomPadding',
-        'background.padding.left': 'leftPadding',
-        'background.padding.right': 'rightPadding',
-      };
-      var queryParamName = queryParamNames[propName];
+      var queryParamName = QUERY_PARAM_NAMES[propName];
       var updatedQueryObject = {};
       var pathObject;
 
