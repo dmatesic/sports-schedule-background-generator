@@ -174,6 +174,7 @@
       nextState = updateSelectedTeam(nextState, pathObject.selectedTeam);
     }
 
+    // TODO: Would probably be more efficient to update the whole background object at once, but is it worth it?
     _.each(QUERY_PARAM_NAMES, function each(queryParamName, propName) {
       if (pathObject[queryParamName] && pathObject[queryParamName] !== state.getIn(propName.split('.'))) {
         nextState = updateBackground(nextState, propName, pathObject[queryParamName]);

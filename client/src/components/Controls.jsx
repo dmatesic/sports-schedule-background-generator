@@ -22,15 +22,16 @@
     mixins: [PureRenderMixin],
     componentWillMount: function componentWillMount() {
       // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
-      this.delayedOnInputChange = _.debounce(this.updateInput, 300);
+      // TODO: Not working ever since change to updating url instead of state directly
+      // this.delayedOnInputChange = _.debounce(this.updateInput, 300);
     },
-    onInputChange: function onInputChange(event) {
+    /* onInputChange: function onInputChange(event) {
       event.persist();
       this.delayedOnInputChange(event);
+    }, */
+    onInputChangeWithoutDebounce: function onInputChangeWithoutDebounce(event) {
+      this.updateInput(event);
     },
-    /* onInputChangeWithoutDebounce: function(event) {
-     this.updateInput(event);
-     }, */
     onSelectTeam: function onSelectTeam(event) {
       var pathObject = _.merge(
         this.props.location.query, {
@@ -80,7 +81,7 @@
               <label htmlFor="background-size-width">Width</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-size-width"
-                       value={this.props.background.size.width} onChange={this.onInputChange}/>
+                       value={this.props.background.size.width} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>
@@ -88,7 +89,7 @@
               <label htmlFor="background-size-height">Height</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-size-height"
-                       value={this.props.background.size.height} onChange={this.onInputChange}/>
+                       value={this.props.background.size.height} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>
@@ -96,7 +97,7 @@
               <label htmlFor="background-padding-top">Top Padding</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-padding-top"
-                       value={this.props.background.padding.top} onChange={this.onInputChange}/>
+                       value={this.props.background.padding.top} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>
@@ -104,7 +105,7 @@
               <label htmlFor="background-padding-bottom">Bottom Padding</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-padding-bottom"
-                       value={this.props.background.padding.bottom} onChange={this.onInputChange}/>
+                       value={this.props.background.padding.bottom} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>
@@ -112,7 +113,7 @@
               <label htmlFor="background-padding-left">Left Padding</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-padding-left"
-                       value={this.props.background.padding.left} onChange={this.onInputChange}/>
+                       value={this.props.background.padding.left} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>
@@ -120,7 +121,7 @@
               <label htmlFor="background-padding-right">Right Padding</label>
               <div className="input-group">
                 <input type="text" className="form-control" id="background-padding-right"
-                       value={this.props.background.padding.right} onChange={this.onInputChange}/>
+                       value={this.props.background.padding.right} onChange={this.onInputChangeWithoutDebounce}/>
                 <div className="input-group-addon">px</div>
               </div>
             </div>

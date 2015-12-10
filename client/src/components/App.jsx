@@ -43,6 +43,7 @@
       this.props.windowResized(width, height);
     },
     initPath: function initPath() {
+      // TODO: Move these default values to reducer initial state
       var pathObject = _.merge(
         this.props.location.query, {
           width: this.props.location.query.width || 1242,
