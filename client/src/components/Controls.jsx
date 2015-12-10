@@ -18,14 +18,14 @@
     mixins: [PureRenderMixin],
     componentWillMount: function componentWillMount() {
       // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
-      this.delayedOnInputChange = _.debounce(this.updateProp, 300);
+      this.delayedOnInputChange = _.debounce(this.updateInput, 300);
     },
     onInputChange: function onInputChange(event) {
       event.persist();
       this.delayedOnInputChange(event);
     },
     /* onInputChangeWithoutDebounce: function(event) {
-     this.updateProp(event);
+     this.updateInput(event);
      }, */
     onSelectTeam: function onSelectTeam(event) {
       this.props.pushPath(util.format(
@@ -36,7 +36,7 @@
     onClickGenerateScreenshot: function onClickGenerateScreenshot() {
       this.props.generateSchedule(this.props);
     },
-    updateProp: function updateProp(event) {
+    updateInput: function updateInput(event) {
       this.props.updateBackground(event.target.id.replace(new RegExp('-', 'g'), '.'), Number(event.target.value));
     },
     render: function render() {

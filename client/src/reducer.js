@@ -7,6 +7,7 @@
 
   var _initialState = {
     needToFetch: {
+      teams: true,
       schedule: false,
     },
     ajax: {
@@ -98,9 +99,16 @@
   }
 
   function updateTeams(state, teams) {
-    return state.update('teams', null, function update() {
+    var nextState = state.update('teams', null, function update() {
       return Immutable.fromJS(teams);
     });
+
+    // Don't need to fetch teams once list is loaded
+    nextState = nextState.updateIn('needToFetch.teams'.split('.'), null, function updateIn() {
+      return false;
+    });
+
+    return nextState;
   }
 
   function updateSelectedTeam(state, selectedTeam) {
@@ -108,6 +116,7 @@
       return selectedTeam;
     });
 
+    // Need to fetch schedule after selecting a team
     nextState = nextState.updateIn('needToFetch.schedule'.split('.'), null, function updateIn() {
       return true;
     });

@@ -15,6 +15,7 @@
     propTypes: {
       selectedTeam: React.PropTypes.string,
       needToFetch: React.PropTypes.object,
+      loadTeams: React.PropTypes.func,
       loadSchedule: React.PropTypes.func,
       windowResized: React.PropTypes.func,
     },
@@ -37,6 +38,7 @@
       this.props.windowResized(width, height);
     },
     fetchAdditionalProps: function fetchAdditionalProps() {
+      if (this.props.needToFetch.teams === true) this.props.loadTeams();
       if (this.props.needToFetch.schedule === true) this.props.loadSchedule(this.props.selectedTeam);
     },
     render: function render() {

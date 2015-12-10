@@ -7,7 +7,6 @@ var ReduxSimpleRouter = require('redux-simple-router');
 var thunk = require('redux-thunk');
 var history = require('history');
 var appReducer = require('./reducer');
-var actionCreators = require('./action-creators');
 var actionMiddleware = require('./action-middleware');
 var App = require('./components/App');
 
@@ -28,8 +27,6 @@ var store = Redux.applyMiddleware(
 var createHistory = history.createHistory();
 
 ReduxSimpleRouter.syncReduxAndRouter(createHistory, store);
-
-store.dispatch(actionCreators.loadTeams());
 
 ReactDOM.render(
   <ReactRedux.Provider store={store}>
