@@ -13,6 +13,8 @@
   "author": "Domenic Matesic",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
     "body-parser": "^1.14.1",
     "cors": "^2.7.1",
     "csvtojson": "^0.4.5",
