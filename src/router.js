@@ -2,6 +2,10 @@
   var core = require('./core.js');
 
   router.init = function init(app) {
+    app.get('/favicon.ico', function get(req, res) {
+      res.end();
+    });
+
     app.get('/team', function get(req, res) {
       res.send(core.getTeams());
     });

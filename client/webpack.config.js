@@ -14,9 +14,9 @@ module.exports = {
             loader: 'eslint-loader'
         }],
         loaders: [{
-            test: /\.jsx?$/,
+            test: /\.js|\.jsx$/, // /\.js$/,
             exclude: /node_modules/,
-            loaders: ['react-hot', 'jsx-loader']
+            loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
         }]
     },
     resolve: {
