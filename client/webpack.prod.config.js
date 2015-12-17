@@ -7,9 +7,9 @@ module.exports = {
     ],
     module: {
         loaders: [{
-            test: /\.jsx?$/,
+            test: /\.js|\.jsx$/, // /\.js$/,
             exclude: /node_modules/,
-            loaders: ['jsx-loader']
+            loaders: ['babel?presets[]=react,presets[]=es2015']
         }]
     },
     resolve: {
