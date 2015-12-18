@@ -33,6 +33,6 @@ ReactDOM.render(
     <Router history={history}>
       {routes}
     </Router>
-  </Provider >,
+  </Provider>,
   document.getElementById('app')
 );

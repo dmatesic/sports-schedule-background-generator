@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import util from 'util';
+import _ from 'lodash';
 import * as core from './src/core.js';
 import * as router from './src/router.js';
 
@@ -11,9 +12,10 @@ const config = {
   },
 };
 
-function startServer() {
-  const app = module.exports = express();
+const app = express();
+export default app;
 
+function startServer() {
   app.use(function use(req, res, next) {
     console.log(util.format(
       '%s requested for %s',
@@ -36,9 +38,14 @@ function startServer() {
   router.init(app);
 
   // Error handling middleware
-  app.use(function use(err, req, res) {
-    console.error(err);
-    res.sendStatus(500);
+  app.use(function use(err, req, res, next) {
+    const errMessage = err.message;
+
+    if (Number(errMessage) > 0) res.sendStatus(errMessage);
+    else {
+      console.error(errMessage);
+      res.sendStatus(500);
+    }
   });
 
   app.listen(config.express.port, function listen() {

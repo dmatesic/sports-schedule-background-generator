@@ -65,6 +65,8 @@ export function getTeamSchedule(opts) {
 
   matchups = _.where(_schedule, { Team: opts.name });
 
+  if (!matchups || matchups.length === 0) throw new Error(404);
+
   teamSchedule = matchups.map(function map(matchup) {
     return {
       opponentName: matchup.Opp,

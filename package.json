@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && npm start",
+    "test": "npm run lint && node ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ./test/helper.js && npm start",
     "start": "node index.js",
     "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js",
-    "lint": "eslint index.js src/** --config .eslintrc"
+    "lint": "eslint index.js src/** test/** --config .eslintrc"
   },
   "keywords": [],
   "author": "Domenic Matesic",
@@ -25,8 +25,10 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "dirty-chai": "^1.2.2",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.0.0",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "supertest": "^1.1.0"
   }
 }

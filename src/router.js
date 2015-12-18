@@ -2,7 +2,7 @@ import * as core from './core.js';
 
 export function init(app) {
   app.get('/favicon.ico', function get(req, res) {
-    res.end();
+    res.status(204).end();
   });
 
   app.get('/team', function get(req, res) {
