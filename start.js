@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import util from 'util';
-import _ from 'lodash';
 import * as core from './src/core.js';
 import * as router from './src/router.js';
 
@@ -38,7 +37,10 @@ function startServer() {
   router.init(app);
 
   // Error handling middleware
+  // NOTE: next needs to be defined for express error handling to work, but it is also an unused var
+  /* eslint-disable no-unused-vars */
   app.use(function use(err, req, res, next) {
+    /* eslint-enable no-unused-vars */
     const errMessage = err.message;
 
     if (Number(errMessage) > 0) res.sendStatus(errMessage);
