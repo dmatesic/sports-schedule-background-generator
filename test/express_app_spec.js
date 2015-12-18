@@ -35,6 +35,7 @@ describe('server routes', () => {
     let teamName;
     let schedule;
 
+    // Find a valid team name
     request(app)
     .get('/team')
     .end(function teamEnd(teamErr, teamRes) {
@@ -67,9 +68,42 @@ describe('server routes', () => {
     });
   });
 
-  it('GET team schedule with invalid params', function it(done) {
+  it('GET team schedule with invalid query param', function it(done) {
     request(app)
     .get('/team/null/schedule')
+    .expect(404, done);
+  });
+
+  it('POST screenshot', function it(done) {
+    request(app)
+    .post('/screenshot')
+    .send({
+      html: '<div>test</div>',
+      height: 100,
+      width: 100,
+    })
+    .end(function end(err, res) {
+      expect(err).to.not.exist();
+      expect(res).to.exist();
+      expect(res.text).to.match(/schedule_(.*)\.png/);
+
+      // Download the generated screenshot
+      request(app)
+      .get(format('/%s', res.text))
+      .expect(200, done);
+    });
+  });
+
+  it('POST screenshot with missing request params', function it(done) {
+    request(app)
+    .post('/screenshot')
+    .send({ })
+    .expect(500, done);
+  });
+
+  it('GET invalid path', function it(done) {
+    request(app)
+    .get('/null')
     .expect(404, done);
   });
 });
