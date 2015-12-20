@@ -52,7 +52,7 @@ function startServer() {
 
   // NOTE: Make sure mocha tests don't listen “twice”, one time in the test and one time here
   // See http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
-  if (!module.parent) {
+  if (module.parent.id === '.') {
     app.listen(config.express.port, function listen() {
       console.log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
     });
