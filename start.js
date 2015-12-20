@@ -50,9 +50,13 @@ function startServer() {
     }
   });
 
-  app.listen(config.express.port, function listen() {
-    console.log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
-  });
+  // NOTE: Make sure mocha tests don't listen “twice”, one time in the test and one time here
+  // See http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
+  if (!module.parent) {
+    app.listen(config.express.port, function listen() {
+      console.log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
+    });
+  }
 }
 
 core.init().then(startServer).catch(function catchCoreErr(err) {

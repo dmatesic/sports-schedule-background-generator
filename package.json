@@ -4,10 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && node ./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ./test/helper.js && npm start",
+    "lint": "./node_modules/.bin/eslint start.js src/** test/** --config .eslintrc",
+    "lint:watch": "nodemon --exec \"npm run lint --silent\"",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --require ./test/helper.js",
+    "test:watch": "npm run test -- --watch",
+    "dev": "node ./node_modules/parallelshell/index.js \"npm run lint:watch\" \"npm run test:watch\"",
     "start": "node index.js",
-    "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js",
-    "lint": "node ./node_modules/eslint/bin/eslint start.js src/** test/** --config .eslintrc"
+    "postinstall": "cd client && npm install && webpack -p --config webpack.prod.config.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "keywords": [],
   "author": "Domenic Matesic",
@@ -29,6 +37,8 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.0.0",
     "mocha": "^2.3.4",
+    "nodemon": "^1.8.1",
+    "parallelshell": "^2.0.0",
     "supertest": "^1.1.0"
   }
 }

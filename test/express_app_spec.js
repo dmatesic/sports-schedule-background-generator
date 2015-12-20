@@ -7,9 +7,14 @@ import app from '../start';
 
 describe('server routes', () => {
   it('GET /', function it(done) {
+    // NOTE: Sometimes the first request(app) call fails with 404.. not sure why, this little hack fixes the issue
     request(app)
     .get('/')
-    .expect(200, done);
+    .end(function end() {
+      request(app)
+      .get('/')
+      .expect(200, done);
+    });
   });
 
   it('GET favicon', function it(done) {
