@@ -2,42 +2,35 @@ import { format } from 'util';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
 import request from 'superagent';
+import { ACTION } from './constants';
 
 import Background from './components/Background';
 
 export function windowResized(width, height) {
   return {
-    type: 'WINDOW_RESIZED',
+    type: ACTION.WINDOW_RESIZED,
     width: width,
     height: height,
   };
 }
 
-export function updateBackground(prop, val) {
-  return {
-    type: 'UPDATE_BACKGROUND',
-    prop: prop,
-    val: val,
-  };
-}
-
 export function loadTeams() {
   return function dispatchFn(dispatch) {
-    dispatch({ type: 'AJAX_START' });
+    dispatch({ type: ACTION.AJAX_START });
 
     request
     .get('team')
     .end(function end(err, res) {
       if (err) {
         dispatch({
-          type: 'AJAX_ERROR',
+          type: ACTION.AJAX_ERROR,
           error: err,
         });
       } else {
-        dispatch({ type: 'AJAX_SUCCESS' });
+        dispatch({ type: ACTION.AJAX_SUCCESS });
 
         dispatch({
-          type: 'UPDATE_TEAMS',
+          type: ACTION.UPDATE_TEAMS,
           teams: res.body,
         });
       }
@@ -47,21 +40,21 @@ export function loadTeams() {
 
 export function loadSchedule(teamName) {
   return function dispatchFn(dispatch) {
-    dispatch({ type: 'AJAX_START' });
+    dispatch({ type: ACTION.AJAX_START });
 
     request
     .get('team/' + teamName + '/schedule')
     .end(function end(err, res) {
       if (err) {
         dispatch({
-          type: 'AJAX_ERROR',
+          type: ACTION.AJAX_ERROR,
           error: err,
         });
       } else {
-        dispatch({ type: 'AJAX_SUCCESS' });
+        dispatch({ type: ACTION.AJAX_SUCCESS });
 
         dispatch({
-          type: 'UPDATE_SCHEDULE',
+          type: ACTION.UPDATE_SCHEDULE,
           schedule: res.body,
         });
       }
@@ -73,7 +66,7 @@ export function generateSchedule(props) {
   return function dispatchFn(dispatch) {
     let background;
 
-    dispatch({ type: 'AJAX_START' });
+    dispatch({ type: ACTION.AJAX_START });
 
     background = format(
       '<html>' +
@@ -96,11 +89,11 @@ export function generateSchedule(props) {
 
       if (err) {
         dispatch({
-          type: 'AJAX_ERROR',
+          type: ACTION.AJAX_ERROR,
           error: err,
         });
       } else {
-        dispatch({ type: 'AJAX_SUCCESS' });
+        dispatch({ type: ACTION.AJAX_SUCCESS });
 
         link = document.createElement('a');
 

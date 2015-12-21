@@ -1,48 +1,8 @@
 import _ from 'lodash';
 import querystring from 'querystring';
 import Immutable from 'immutable';
-import ReduxSimpleRouter from 'redux-simple-router';
-import { maxSquareSize } from './math-functions';
-import { QUERY_PARAM_NAMES } from './constants';
-
-const _initialState = {
-  needToFetch: {
-    teams: true,
-    schedule: false,
-  },
-  ajax: {
-    working: false,
-    error: null,
-  },
-  teams: [],
-  schedule: [],
-  background: {
-    container: {
-      size: {
-        width: null,
-        height: null,
-      },
-    },
-    preview: {
-      scale: null,
-    },
-    size: {
-      width: null, // 1242,
-      height: null, // 2208,
-    },
-    padding: {
-      top: null, // 580,
-      bottom: null, // 298,
-      right: null, // 123,
-      left: null, // 123,
-    },
-    team: {
-      size: {
-        width: null,
-      },
-    },
-  },
-};
+import { maxSquareSize, parseIntStrict } from './math-functions';
+import { INITIAL_STATE, ACTION, QUERY_PARAM_NAME } from './constants';
 
 function _updateBackgroundPreviewSize(state) {
   return state.updateIn('background.preview.scale'.split('.'), null, function updateIn() {
@@ -145,8 +105,13 @@ function updateSchedule(state, schedule) {
 }
 
 function updateBackground(state, prop, val) {
-  let nextState = state.updateIn(prop.split('.'), null, function updateIn() {
-    return val;
+  let nextState;
+  const valAsInt = parseIntStrict(val);
+
+  if (_.isNaN(valAsInt)) return state;
+
+  nextState = state.updateIn(prop.split('.'), null, function updateIn() {
+    return valAsInt;
   });
 
   nextState = _updateBackgroundPreviewSize(nextState);
@@ -172,7 +137,7 @@ function updatePath(state, path) {
   }
 
   // TODO: Would probably be more efficient to update the whole background object at once, but is it worth it?
-  _.each(QUERY_PARAM_NAMES, function each(queryParamName, propName) {
+  _.each(QUERY_PARAM_NAME, function each(queryParamName, propName) {
     if (pathObject[queryParamName] && pathObject[queryParamName] !== state.getIn(propName.split('.'))) {
       nextState = updateBackground(nextState, propName, pathObject[queryParamName]);
     }
@@ -181,31 +146,27 @@ function updatePath(state, path) {
   return nextState;
 }
 
-export default function exports(stateInput, action) {
-  let state = stateInput;
-  if (_.isUndefined(stateInput)) state = Immutable.fromJS(_initialState);
-
+export default function exports(state = Immutable.fromJS(INITIAL_STATE), action) {
   switch (action.type) {
-    case 'WINDOW_RESIZED':
+    case ACTION.WINDOW_RESIZED:
       return windowResized(state, action.width, action.height);
-    case 'AJAX_START':
+    case ACTION.AJAX_START:
       return ajaxStart(state);
-    case 'AJAX_SUCCESS':
+    case ACTION.AJAX_SUCCESS:
       return ajaxSuccess(state);
-    case 'AJAX_ERROR':
+    case ACTION.AJAX_ERROR:
       return ajaxError(state, action.error);
-    case 'UPDATE_TEAMS':
+    case ACTION.UPDATE_TEAMS:
       return updateTeams(state, action.teams);
-    case 'UPDATE_SELECTED_TEAM':
+    case ACTION.UPDATE_SELECTED_TEAM:
       return updateSelectedTeam(state, action.selectedTeam);
-    case 'UPDATE_SCHEDULE':
+    case ACTION.UPDATE_SCHEDULE:
       return updateSchedule(state, action.schedule);
-    case 'UPDATE_BACKGROUND':
+    case ACTION.UPDATE_BACKGROUND:
       return updateBackground(state, action.prop, action.val);
-    case ReduxSimpleRouter.UPDATE_PATH:
+    case ACTION.INIT_PATH:
       return updatePath(state, action.payload.path);
-    // TODO: Use ReduxSimpleRouter.INIT_PATH when it is exported (https://github.com/jlongster/redux-simple-router/issues/105)
-    case '@@router/INIT_PATH':
+    case ACTION.UPDATE_PATH:
       return updatePath(state, action.payload.path);
     default:
       return state;

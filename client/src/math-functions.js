@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 // http://math.stackexchange.com/questions/466198/algorithm-to-get-the-maximum-size-of-n-squares-that-fit-into-a-rectangle-with-a
 export function maxSquareSize(x, y, n) {
   let Px;
@@ -18,4 +20,17 @@ export function maxSquareSize(x, y, n) {
   else Sy = y / Py;
 
   return Math.floor(Math.max(Sx, Sy));
+}
+
+export function parseIntStrict(val) {
+  let valAsNumber;
+  let valAsInt;
+
+  if (_.isString(val)) valAsNumber = Number(val);
+  else valAsNumber = val;
+
+  if (Number.isInteger(valAsNumber)) valAsInt = parseInt(val, 10);
+  else valAsInt = NaN;
+
+  return valAsInt;
 }

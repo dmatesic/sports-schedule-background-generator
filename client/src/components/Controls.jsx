@@ -3,7 +3,7 @@ import querystring from 'querystring';
 import { format } from 'util';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { QUERY_PARAM_NAMES } from '../constants';
+import { QUERY_PARAM_NAME } from '../constants';
 
 export default React.createClass({
   propTypes: {
@@ -11,7 +11,6 @@ export default React.createClass({
     background: React.PropTypes.object,
     teams: React.PropTypes.array,
     location: React.PropTypes.object,
-    updateBackground: React.PropTypes.func,
     updateSelectedTeam: React.PropTypes.func,
     generateSchedule: React.PropTypes.func,
     pushPath: React.PropTypes.func,
@@ -46,7 +45,7 @@ export default React.createClass({
   },
   updateInput: function updateInput(event) {
     const propName = event.target.id.replace(new RegExp('-', 'g'), '.');
-    const queryParamName = QUERY_PARAM_NAMES[propName];
+    const queryParamName = QUERY_PARAM_NAME[propName];
     const updatedQueryObject = {};
     let pathObject;
 
