@@ -4,4 +4,3 @@ import dirtyChai from 'dirty-chai'; // Extends Chai with lint-friendly terminati
 
 chai.use(chaiImmutable);
 chai.use(dirtyChai);
-

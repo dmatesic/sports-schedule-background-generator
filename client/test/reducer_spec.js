@@ -34,17 +34,60 @@ describe('reducer', () => {
     };
     const nextState = reducer(state, action);
 
-    expect(nextState.getIn('background.size'.split('.'))).to.equal(fromJS({
+    expect(nextState.getIn('background.size.current'.split('.'))).to.equal(fromJS({
       width: 1000,
-      height: 1000
+      height: 1000,
+      padding: {
+        top: 400,
+        bottom: 400,
+        left: 400,
+        right: 400,
+      },
     }));
 
-    expect(nextState.getIn('background.padding'.split('.'))).to.equal(fromJS({
-      top: 400,
-      bottom: 400,
-      right: 400,
-      left: 400
+    expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(fromJS({
+      width: 1000,
+      height: 1000,
+      padding: {
+        top: 400,
+        bottom: 400,
+        left: 400,
+        right: 400,
+      },
     }));
+  });
+
+  it('does not allow background padding to be greater than 90% of background size', function it() {
+    let state;
+    const action = {
+      type: ACTION.INIT_PATH,
+      payload: {
+        path: format(
+          '/?width=%s&height=%s&topPadding=%s&bottomPadding=%s&leftPadding=%s&rightPadding=%s',
+          1000,
+          1000,
+          451,
+          451,
+          901,
+          0
+        )
+      }
+    };
+    const nextState = reducer(state, action);
+
+    expect(nextState.getIn('background.size.current'.split('.'))).to.equal(fromJS({
+      width: 1000,
+      height: 1000,
+      padding: {
+        top: 451,
+        bottom: 451,
+        left: 901,
+        right: 0,
+      },
+    }));
+
+    expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(undefined);
   });
 });
 
+// TODO: update background first, then padding

@@ -75,50 +75,50 @@ export default React.createClass({
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="background-size-width">Width</label>
+            <label htmlFor="width">Width</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-size-width"
-                     value={this.props.background.size.width} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="width"
+                     value={this.props.background.size.current.width} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="background-size-height">Height</label>
+            <label htmlFor="height">Height</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-size-height"
-                     value={this.props.background.size.height} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="height"
+                     value={this.props.background.size.current.height} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="background-padding-top">Top Padding</label>
+            <label htmlFor="padding-top">Top Padding</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-padding-top"
-                     value={this.props.background.padding.top} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="padding-top"
+                     value={this.props.background.size.current.padding.top} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="background-padding-bottom">Bottom Padding</label>
+            <label htmlFor="padding-bottom">Bottom Padding</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-padding-bottom"
-                     value={this.props.background.padding.bottom} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="padding-bottom"
+                     value={this.props.background.size.current.padding.bottom} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="background-padding-left">Left Padding</label>
+            <label htmlFor="padding-left">Left Padding</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-padding-left"
-                     value={this.props.background.padding.left} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="padding-left"
+                     value={this.props.background.size.current.padding.left} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="background-padding-right">Right Padding</label>
+            <label htmlFor="padding-right">Right Padding</label>
             <div className="input-group">
-              <input type="text" className="form-control" id="background-padding-right"
-                     value={this.props.background.padding.right} onChange={this.onInputChangeWithoutDebounce}/>
+              <input type="text" className="form-control" id="padding-right"
+                     value={this.props.background.size.current.padding.right} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Background from './Background';
@@ -19,7 +20,7 @@ export default React.createClass({
       MozTransform: 'scale(' + this.props.background.preview.scale + ')',
       msTransform: 'scale(' + this.props.background.preview.scale + ')',
       OTransform: 'scale(' + this.props.background.preview.scale + ')',
-      marginBottom: '-' + this.props.background.size.height + 'px', // Remove empty whitespace created by scale
+      marginBottom: '-' + (_.get(this, 'props.background.size.valid.height') || 0) + 'px', // Remove empty whitespace created by scale
     };
 
     return (
