@@ -89,5 +89,3 @@ describe('reducer', () => {
     expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(undefined);
   });
 });
-
-// TODO: update background first, then padding

@@ -16,6 +16,25 @@ export default React.createClass({
     pushPath: React.PropTypes.func,
   },
   mixins: [PureRenderMixin],
+  getDefaultProps: function getDefaultProps() {
+    return {
+      teams: [],
+      background: {
+        size: {
+          current: {
+            height: null,
+            width: null,
+            padding: {
+              top: null,
+              bottom: null,
+              left: null,
+              right: null,
+            },
+          },
+        },
+      },
+    };
+  },
   componentWillMount: function componentWillMount() {
     // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
     // TODO: Not working ever since change to updating url instead of state directly
