@@ -30,7 +30,7 @@ function loadSchedule() {
       scheduleAsCsv = fs.createReadStream(path.resolve(__dirname, '../data/2015_NCAA_FOOTBALL_SCHEDULES.csv'));
 
       convertScheduleFromCsvIntoJson({
-        scheduleAsCsv: scheduleAsCsv,
+        scheduleAsCsv,
       }).then(
         function resolveFn(schedule) {
           _schedule = schedule;

@@ -50,8 +50,8 @@ function _updateBackgroundSize(state, backgroundSize) {
 function windowResized(state, width, height) {
   let nextState = state.updateIn('background.container.size'.split('.'), null, function updateIn() {
     return fromJS({
-      width: width,
-      height: height,
+      width,
+      height,
     });
   });
 
@@ -77,7 +77,7 @@ function ajaxError(state, error) {
   return state.update('ajax', null, function update() {
     return fromJS({
       working: false,
-      error: error,
+      error,
     });
   });
 }

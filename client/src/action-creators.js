@@ -9,8 +9,8 @@ import Background from './components/Background';
 export function windowResized(width, height) {
   return {
     type: ACTION.WINDOW_RESIZED,
-    width: width,
-    height: height,
+    width,
+    height,
   };
 }
 
