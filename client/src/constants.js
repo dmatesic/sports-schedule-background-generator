@@ -22,7 +22,33 @@ export const INITIAL_STATE = {
   schedule: [],
   background: {
     size: {
+      error: {
+        width: null,
+        height: null,
+        widthPlusPadding: null,
+        heightPlusPadding: null,
+      },
       default: {
+        width: 1242,
+        height: 2208,
+        padding: {
+          top: 580,
+          bottom: 298,
+          right: 123,
+          left: 123,
+        },
+      },
+      current: {
+        width: 1242,
+        height: 2208,
+        padding: {
+          top: 580,
+          bottom: 298,
+          right: 123,
+          left: 123,
+        },
+      },
+      valid: {
         width: 1242,
         height: 2208,
         padding: {

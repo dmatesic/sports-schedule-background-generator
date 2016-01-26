@@ -3,7 +3,8 @@ import querystring from 'querystring';
 import { format } from 'util';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { QUERY_PARAM_NAME } from '../constants';
+import classNames from 'classnames';
+import { QUERY_PARAM_NAME, INITIAL_STATE } from '../constants';
 
 export default React.createClass({
   propTypes: {
@@ -17,23 +18,7 @@ export default React.createClass({
   },
   mixins: [PureRenderMixin],
   getDefaultProps: function getDefaultProps() {
-    return {
-      teams: [],
-      background: {
-        size: {
-          current: {
-            height: null,
-            width: null,
-            padding: {
-              top: null,
-              bottom: null,
-              left: null,
-              right: null,
-            },
-          },
-        },
-      },
-    };
+    return INITIAL_STATE;
   },
   componentWillMount: function componentWillMount() {
     // http://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
@@ -78,6 +63,31 @@ export default React.createClass({
     ));
   },
   render: function render() {
+    const widthIsValid = this.props.background.size.error.width === null;
+    const heightIsValid = this.props.background.size.error.height === null;
+    const widthPlusPaddingIsValid = this.props.background.size.error.widthPlusPadding === null;
+    const heightPlusPaddingIsValid = this.props.background.size.error.heightPlusPadding === null;
+
+    const widthInputControlClass = classNames({
+      'input-group': true,
+      'has-error': widthIsValid === false || widthPlusPaddingIsValid === false,
+    });
+
+    const heightInputControlClass = classNames({
+      'input-group': true,
+      'has-error': heightIsValid === false || heightPlusPaddingIsValid === false,
+    });
+
+    const widthPaddingInputControlClass = classNames({
+      'input-group': true,
+      'has-error': widthPlusPaddingIsValid === false,
+    });
+
+    const heightPaddingInputControlClass = classNames({
+      'input-group': true,
+      'has-error': heightPlusPaddingIsValid === false,
+    });
+
     const teamOptionNodes = this.props.teams.map(function map(team, index) {
       return <option value={team} key={index}>{team}</option>;
     });
@@ -94,43 +104,43 @@ export default React.createClass({
           </div>
           <div className="form-group">
             <label htmlFor="width">Width</label>
-            <div className="input-group">
+            <div className={widthInputControlClass}>
               <input type="text" className="form-control" id="width" value={this.props.background.size.current.width} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="height">Height</label>
-            <div className="input-group">
+            <div className={heightInputControlClass}>
               <input type="text" className="form-control" id="height" value={this.props.background.size.current.height} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="padding-top">Top Padding</label>
-            <div className="input-group">
-              <input type="text" className="form-control" id="padding-top" value={this.props.background.size.current.padding.top} onChange={this.onInputChangeWithoutDebounce}/>
-              <div className="input-group-addon">px</div>
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="padding-bottom">Bottom Padding</label>
-            <div className="input-group">
-              <input type="text" className="form-control" id="padding-bottom" value={this.props.background.size.current.padding.bottom} onChange={this.onInputChangeWithoutDebounce}/>
-              <div className="input-group-addon">px</div>
-            </div>
-          </div>
-          <div className="form-group">
             <label htmlFor="padding-left">Left Padding</label>
-            <div className="input-group">
+            <div className={widthPaddingInputControlClass}>
               <input type="text" className="form-control" id="padding-left" value={this.props.background.size.current.padding.left} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="padding-right">Right Padding</label>
-            <div className="input-group">
+            <div className={widthPaddingInputControlClass}>
               <input type="text" className="form-control" id="padding-right" value={this.props.background.size.current.padding.right} onChange={this.onInputChangeWithoutDebounce}/>
+              <div className="input-group-addon">px</div>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="padding-top">Top Padding</label>
+            <div className={heightPaddingInputControlClass}>
+              <input type="text" className="form-control" id="padding-top" value={this.props.background.size.current.padding.top} onChange={this.onInputChangeWithoutDebounce}/>
+              <div className="input-group-addon">px</div>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="padding-bottom">Bottom Padding</label>
+            <div className={heightPaddingInputControlClass}>
+              <input type="text" className="form-control" id="padding-bottom" value={this.props.background.size.current.padding.bottom} onChange={this.onInputChangeWithoutDebounce}/>
               <div className="input-group-addon">px</div>
             </div>
           </div>

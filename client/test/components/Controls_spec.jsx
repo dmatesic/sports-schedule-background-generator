@@ -14,7 +14,7 @@ describe('Controls', () => {
 
     try {
       shallowRenderer.render(<Controls />);
-      component = shallowRenderer.getRenderOutput()
+      component = shallowRenderer.getRenderOutput();
     }
     catch (ex) {
       expect(ex).to.not.exist();
@@ -25,6 +25,7 @@ describe('Controls', () => {
 
   it('renders Controls with valid values', () => {
     let component;
+
     const props = {
       teams: [],
       background: {
@@ -44,7 +45,7 @@ describe('Controls', () => {
     };
 
     shallowRenderer.render(<Controls />);
-    component = shallowRenderer.getRenderOutput()
+    component = shallowRenderer.getRenderOutput();
 
     expect(component).to.exist();
   });

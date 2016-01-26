@@ -86,6 +86,42 @@ describe('reducer', () => {
       },
     }));
 
-    expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(undefined);
+    expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(fromJS(
+      INITIAL_STATE.background.size.default
+    ));
+  });
+
+  it('sets valid background size back to default if there are any errors', function it() {
+    let state;
+    const action = {
+      type: ACTION.INIT_PATH,
+      payload: {
+        path: format(
+          '/?width=%s&height=%s&topPadding=%s&bottomPadding=%s&leftPadding=%s&rightPadding=%s',
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        )
+      }
+    };
+    const nextState = reducer(state, action);
+
+    expect(nextState.getIn('background.size.current'.split('.'))).to.equal(fromJS({
+      width: 1,
+      height: 1,
+      padding: {
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+      },
+    }));
+
+    expect(nextState.getIn('background.size.valid'.split('.'))).to.equal(fromJS(
+      INITIAL_STATE.background.size.default
+    ));
   });
 });

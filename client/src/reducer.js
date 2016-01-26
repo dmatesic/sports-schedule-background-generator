@@ -25,13 +25,22 @@ function _updateTeamWidth(state) {
 
 function _updateBackgroundSize(state, backgroundSize) {
   let nextState;
-  const widthIsValid = backgroundSize.width > 300 && backgroundSize.width < 3000;
-  const heightIsValid = backgroundSize.height > 300 && backgroundSize.height < 3000;
+  const widthIsValid = backgroundSize.width >= 300 && backgroundSize.width <= 3000;
+  const heightIsValid = backgroundSize.height >= 300 && backgroundSize.height <= 3000;
   const widthPlusPaddingIsValid = (((backgroundSize.padding.left || 0) + (backgroundSize.padding.right || 0)) <= (backgroundSize.width || 0) * 0.9);
   const heightPlusPaddingIsValid = (((backgroundSize.padding.top || 0) + (backgroundSize.padding.bottom || 0)) <= (backgroundSize.height || 0) * 0.9);
   const backgroundSizeIsValid = widthIsValid && heightIsValid && widthPlusPaddingIsValid && heightPlusPaddingIsValid;
 
-  nextState = state.updateIn('background.size.current'.split('.'), null, function updateIn() {
+  nextState = state.updateIn('background.size.error'.split('.'), null, function updateIn() {
+    return fromJS({
+      width: widthIsValid ? null : 'Width should be between 300 and 3000',
+      height: heightIsValid ? null : 'Height should be between 300 and 3000',
+      widthPlusPadding: widthPlusPaddingIsValid ? null : 'Padding should not exceed 90% of width',
+      heightPlusPadding: heightPlusPaddingIsValid ? null : 'Padding should not exceed 90% of height',
+    });
+  });
+
+  nextState = nextState.updateIn('background.size.current'.split('.'), null, function updateIn() {
     return fromJS(backgroundSize);
   });
 
