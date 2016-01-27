@@ -67,6 +67,7 @@ export default React.createClass({
     const heightIsValid = this.props.background.size.error.height === null;
     const widthPlusPaddingIsValid = this.props.background.size.error.widthPlusPadding === null;
     const heightPlusPaddingIsValid = this.props.background.size.error.heightPlusPadding === null;
+    const isValid = widthIsValid && heightIsValid && widthPlusPaddingIsValid && heightPlusPaddingIsValid;
 
     const widthInputControlClass = classNames({
       'input-group': true,
@@ -91,6 +92,18 @@ export default React.createClass({
     const teamOptionNodes = this.props.teams.map(function map(team, index) {
       return <option value={team} key={index}>{team}</option>;
     });
+
+    let errorMessages;
+
+    if (isValid === false) {
+      errorMessages = (
+        <div className="alert alert-danger" role="alert">
+          {Object.keys(this.props.background.size.error).map(function map(errorType) {
+            return <p key={errorType}><strong>{this.props.background.size.error[errorType]}</strong></p>;
+          }.bind(this))}
+        </div>
+      );
+    }
 
     return (
       <div id="controls">
@@ -145,6 +158,7 @@ export default React.createClass({
             </div>
           </div>
         </div>
+        { errorMessages }
         <div>
           <button type="button" className="btn btn-primary" onClick={this.onClickGenerateScreenshot}>Generate
             Screenshot
