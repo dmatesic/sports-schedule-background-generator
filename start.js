@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -41,9 +42,9 @@ function startServer() {
   /* eslint-disable no-unused-vars */
   app.use(function use(err, req, res, next) {
     /* eslint-enable no-unused-vars */
-    const errMessage = err.message;
+    const errMessage = (_.isString(err)) ? err : err.message;
 
-    if (Number(errMessage) > 0) res.sendStatus(errMessage);
+    if (_.isNumber(errMessage) && Number(errMessage) > 0) res.sendStatus(errMessage);
     else {
       console.error(errMessage);
       res.sendStatus(500);
