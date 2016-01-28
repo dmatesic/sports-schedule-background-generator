@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { format } from 'util';
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
@@ -73,16 +74,16 @@ export function generateSchedule(props) {
       '<head><base href="%s"></head>' +
       '<body>%s</body>' +
       '</html>',
-      window.location.origin,
+      (typeof window !== 'undefined') ? _.get(window, 'location.origin') || '' : '',
       ReactDomServer.renderToStaticMarkup(< Background {...props}/>)
     );
 
     request
-    .post('screenshot')
+    .post('/screenshot')
     .send({
       html: background,
-      height: props.background.size.height,
-      width: props.background.size.width,
+      height: props.background.size.valid.height,
+      width: props.background.size.valid.width,
     })
     .end(function end(err, res) {
       let link;

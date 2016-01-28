@@ -24,10 +24,12 @@
     "eslint-config-airbnb": "^2.0.0",
     "eslint-plugin-react": "^3.11.3",
     "mocha": "^2.3.4",
+    "nock": "^7.0.2",
     "nodemon": "^1.8.1",
     "parallelshell": "^2.0.0",
     "react-addons-test-utils": "^0.14.5",
     "react-hot-loader": "^1.3.0",
+    "redux-mock-store": "0.0.6",
     "supertest": "^1.1.0",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.12.1"
