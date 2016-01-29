@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import util from 'util';
+import { LEVEL, log } from './src/logging.js';
 import * as core from './src/core.js';
 import * as router from './src/router.js';
 
@@ -17,7 +18,7 @@ export default app;
 
 function startServer() {
   app.use(function use(req, res, next) {
-    console.log(util.format(
+    log(util.format(
       '%s requested for %s',
       req.method,
       req.url
@@ -44,9 +45,9 @@ function startServer() {
     /* eslint-enable no-unused-vars */
     const errMessage = (_.isString(err)) ? err : err.message;
 
-    if (_.isNumber(errMessage) && Number(errMessage) > 0) res.sendStatus(errMessage);
+    if (Number(errMessage) > 0) res.sendStatus(errMessage);
     else {
-      console.error(errMessage);
+      log(errMessage, LEVEL.ERROR);
       res.sendStatus(500);
     }
   });
@@ -55,12 +56,12 @@ function startServer() {
   // See http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
   if (module.parent.id === '.') {
     app.listen(config.express.port, function listen() {
-      console.log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
+      log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
     });
   }
 }
 
 core.init().then(startServer).catch(function catchCoreErr(err) {
-  console.error(err);
+  log(err, LEVEL.ERROR);
   process.exit(1);
 });
