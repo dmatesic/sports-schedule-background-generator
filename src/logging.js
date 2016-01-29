@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import winston from 'winston';
 import 'winston-loggly';
+import config from '../src/config.js';
 
 const logger = new (winston.Logger)({
   transports: [
@@ -8,7 +9,7 @@ const logger = new (winston.Logger)({
     new (winston.transports.Loggly)({
       token: '015cf025-66ab-4411-8b10-254b628f1146',
       subdomain: 'dmatesic',
-      tags: ['ssbg-server'],
+      tags: ['ssbg-server', config.env],
       json: true
     })
   ]

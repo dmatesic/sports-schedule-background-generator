@@ -3,15 +3,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import util from 'util';
+import config from './src/config.js';
 import { LEVEL, log } from './src/logging.js';
 import * as core from './src/core.js';
 import * as router from './src/router.js';
-
-const config = {
-  express: {
-    port: process.env.PORT || 4000,
-  },
-};
 
 const app = express();
 export default app;
@@ -56,7 +51,7 @@ function startServer() {
   // See http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
   if (module.parent.id === '.') {
     app.listen(config.express.port, function listen() {
-      log(util.format('Express server listening on port %d in %s mode', config.express.port, app.settings.env));
+      log(util.format('Express server listening on port %d in %s mode', config.express.port, config.env));
     });
   }
 }
