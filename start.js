@@ -13,11 +13,11 @@ export default app;
 
 function startServer() {
   app.use(function use(req, res, next) {
-    log(util.format(
+    log({ message: util.format(
       '%s requested for %s',
       req.method,
       req.url
-    ));
+    ) });
     next();
   });
 
@@ -42,7 +42,7 @@ function startServer() {
 
     if (Number(errMessage) > 0) res.sendStatus(errMessage);
     else {
-      log(errMessage, LEVEL.ERROR);
+      log({ message: errMessage, level: LEVEL.ERROR });
       res.sendStatus(500);
     }
   });
@@ -51,12 +51,12 @@ function startServer() {
   // See http://www.marcusoft.net/2015/10/eaddrinuse-when-watching-tests-with-mocha-and-supertest.html
   if (module.parent.id === '.') {
     app.listen(config.express.port, function listen() {
-      log(util.format('Express server listening on port %d in %s mode', config.express.port, config.env));
+      log({ message: util.format('Express server listening on port %d in %s mode', config.express.port, config.env) });
     });
   }
 }
 
 core.init().then(startServer).catch(function catchCoreErr(err) {
-  log(err, LEVEL.ERROR);
+  log({ message: err, level: LEVEL.ERROR });
   process.exit(1);
 });

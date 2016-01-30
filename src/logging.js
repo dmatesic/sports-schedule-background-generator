@@ -1,19 +1,8 @@
-import _ from 'lodash';
 import winston from 'winston';
 import 'winston-loggly';
 import config from '../src/config.js';
 
-const logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.Console)(),
-    new (winston.transports.Loggly)({
-      token: '015cf025-66ab-4411-8b10-254b628f1146',
-      subdomain: 'dmatesic',
-      tags: ['ssbg-server', config.env],
-      json: true
-    })
-  ]
-});
+const logger = new (winston.Logger)({});
 
 export const LEVEL = {
   SILLY: 'silly', // 5
@@ -21,9 +10,31 @@ export const LEVEL = {
   VERBOSE: 'verbose', // 3
   INFO: 'info', // 2
   WARN: 'warn', // 1
-  ERROR: 'error' // 0
+  ERROR: 'error', // 0
 };
 
-export function log(message, level = LEVEL.INFO) {
+export function log(opts) {
+  const level = opts.level || LEVEL.INFO;
+  const message = opts.message;
+  const tags = [config.env];
+
+  if (!message) throw new Error('Missing required parameter: message');
+
+  if (opts.client) tags.push('client');
+  else tags.push('server');
+
+  // TODO: Is there a better way to update the tags after instantiating logger?
+  logger.configure({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.Loggly)({
+        token: config.loggly.token,
+        subdomain: config.loggly.subdomain,
+        json: true,
+        tags,
+      }),
+    ],
+  });
+
   logger.log(level, message);
 }

@@ -111,4 +111,20 @@ describe('server routes', () => {
     .get('/null')
     .expect(404, done);
   });
+
+  it('POST log message', function it(done) {
+    request(app)
+    .post('/log')
+    .send({
+      message: 'testing the log',
+    })
+    .expect(200, done);
+  });
+
+  it('POST log message with missing request param', function it(done) {
+    request(app)
+    .post('/log')
+    .send({ })
+    .expect(500, done);
+  });
 });
