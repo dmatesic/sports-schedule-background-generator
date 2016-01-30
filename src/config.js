@@ -4,8 +4,8 @@ const config = {
     port: process.env.PORT || 4000,
   },
   loggly: {
-    token: '015cf025-66ab-4411-8b10-254b628f1146',
-    subdomain: 'dmatesic',
+    token: process.env.LOGGLY_TOKEN || '015cf025-66ab-4411-8b10-254b628f1146',
+    subdomain: process.env.LOGGLY_SUBDOMAIN || 'dmatesic',
   },
 };
 
