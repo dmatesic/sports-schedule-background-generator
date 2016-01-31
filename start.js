@@ -4,7 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import util from 'util';
 import config from './src/config.js';
-import { LEVEL, log } from './src/logging.js';
+import { LEVEL, log } from './src/logger.js';
 import * as core from './src/core.js';
 import * as router from './src/router.js';
 

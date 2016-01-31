@@ -1,5 +1,5 @@
 import * as core from './core.js';
-import { log } from './logging.js';
+import { log } from './logger.js';
 
 export function init(app) {
   app.get('/favicon.ico', function get(req, res) {
