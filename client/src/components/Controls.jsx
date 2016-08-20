@@ -111,7 +111,7 @@ export default React.createClass({
           <div className="form-group form-group-large">
             <label htmlFor="selectedTeam">Team</label>
             <select className="form-control" id="selectedTeam" value={this.props.selectedTeam} onChange={this.onSelectTeam}>
-              <option disabled>Select a Team</option>
+              <option selected="true" disabled="disabled">Select a Team</option>
               {teamOptionNodes}
             </select>
           </div>
