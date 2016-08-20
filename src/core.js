@@ -27,7 +27,7 @@ function loadSchedule() {
     let scheduleAsCsv;
 
     try {
-      scheduleAsCsv = fs.createReadStream(path.resolve(__dirname, '../data/2015_NCAA_FOOTBALL_SCHEDULES.csv'));
+      scheduleAsCsv = fs.createReadStream(path.resolve(__dirname, '../data/2016_NCAA_FOOTBALL_SCHEDULES.csv'));
 
       convertScheduleFromCsvIntoJson({
         scheduleAsCsv,
